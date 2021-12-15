@@ -37,9 +37,14 @@ export const OrderWrapper = styled.div`
 `;
 
 export const InputWrapper = styled.div`
+  width: calc(100% - 40px);
+  margin-top: 20px;
+  margin-bottom: 12px;
+  background-color: #292931;
+  border-radius: 8px;
   position: relative;
-  width: 100%;
   display: flex;
+  padding: 15px 20px;
   flex-direction: column;
   &:first-child {
     & > div {

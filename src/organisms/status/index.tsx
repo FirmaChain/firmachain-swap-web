@@ -3,7 +3,7 @@ import axios from "axios";
 import numeral from "numeral";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeList as List } from "react-window";
-
+import { useSelector } from "react-redux";
 import Tooltip from "./tooltip";
 
 import {
@@ -70,23 +70,31 @@ const Row = ({ data, index, style }: any) => {
 };
 
 const Status = () => {
+  const { order } = useSelector((state: any) => state.user);
   const [swapHistoryList, setSwapHistoryList] = useState([]);
   const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_API_HOST}/swaps`)
-      .then((res) => {
-        setSwapHistoryList(res.data.result.swapList);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    console.log(order);
+    if (order.orderId !== undefined && order.orderId !== "") {
+      console.log(order.orderId);
+      setSearchText(order.orderId);
+      search(order.orderId);
+    } else {
+      axios
+        .get(`${process.env.REACT_APP_API_HOST}/swaps`)
+        .then((res) => {
+          setSwapHistoryList(res.data.result.swapList);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
   }, []);
 
   const onKeyDownSearch = (e: any) => {
     if (e.key === "Enter") {
-      search();
+      search(searchText);
     }
   };
 
@@ -95,23 +103,23 @@ const Status = () => {
     setSearchText(e.target.value.replace(/(\s*)/g, ""));
   };
 
-  const getAPIType = () => {
-    if (searchText.slice(0, 5) === "order") {
+  const getAPIType = (text: string) => {
+    if (text.slice(0, 5) === "order") {
       return "orders";
-    } else if (searchText.length === 0) {
+    } else if (text.length === 0) {
       return "";
     } else {
       return "wallets";
     }
   };
 
-  const search = () => {
-    const apiType = getAPIType();
+  const search = (text: string) => {
+    const apiType = getAPIType(text);
 
     let baseURI = `${process.env.REACT_APP_API_HOST}/swaps`;
 
     if (apiType !== "") {
-      baseURI += `/${getAPIType()}/${searchText}`;
+      baseURI += `/${getAPIType(text)}/${text}`;
     }
 
     axios
@@ -126,7 +134,6 @@ const Status = () => {
 
   return (
     <StatusContainer>
-      {console.log(swapHistoryList)}
       <InputWrapper>
         <Label>Order ID or Address (Firma/ETH)</Label>
         <InputBoxDefault
@@ -136,7 +143,12 @@ const Status = () => {
           onChange={onChangeSearchText}
         />
       </InputWrapper>
-      <SearchButton active={true} onClick={search}>
+      <SearchButton
+        active={true}
+        onClick={() => {
+          search(searchText);
+        }}
+      >
         Search
       </SearchButton>
 

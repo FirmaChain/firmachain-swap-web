@@ -1,11 +1,11 @@
 import React, { useContext, useState, useEffect } from "react";
-import { useSnackbar } from "notistack";
 import axios from "axios";
 
-import { convertNumber, copyToClipboard } from "../../utils/common";
+import { convertNumber } from "../../utils/common";
 import { MainContext } from "../../pages/main";
-import { STEP_1, STEP_2, STEP_3, STEP_STATUS } from "../../constants/main";
+import { STEP_1, STEP_2, STEP_3, STEP_RESULT } from "../../constants/main";
 import { terms } from "../../terms";
+import { userActions } from "../../redux/action";
 
 import { ConfirmModal } from "../modals";
 
@@ -28,7 +28,6 @@ import {
 } from "./styles";
 
 const Main = () => {
-  const { enqueueSnackbar } = useSnackbar();
   const { setStep, currentStep } = useContext(MainContext);
   const [confirmModal, toggleModal] = useState(false);
 
@@ -87,15 +86,6 @@ const Main = () => {
     setEmailAddress(e.target.value);
   };
 
-  const copy = () => {
-    copyToClipboard(orderId);
-
-    enqueueSnackbar("Copied", {
-      variant: "success",
-      autoHideDuration: 1000,
-    });
-  };
-
   const showConfirmModal = () => {
     toggleModal(true);
   };
@@ -109,7 +99,14 @@ const Main = () => {
       )
       .then((res) => {
         toggleModal(false);
-        setStep(STEP_STATUS);
+        userActions.handleUserOrder({
+          orderId,
+          ethAddress,
+          firmaAddress,
+          amount,
+          emailAddress,
+        });
+        setStep(STEP_RESULT);
       })
       .catch((e) => {
         console.log(e);
@@ -123,6 +120,7 @@ const Main = () => {
           toggleModal(false);
         }}
         orderId={orderId}
+        amount={amount}
         confirmAction={confirmSwap}
       />
       <StepWrapper>

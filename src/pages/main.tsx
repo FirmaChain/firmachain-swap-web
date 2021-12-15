@@ -5,8 +5,9 @@ import Top from "../organisms/top";
 import Intro from "../organisms/intro";
 import Status from "../organisms/status";
 import Step from "../organisms/step";
+import ResultOrder from "../organisms/resultOrder";
 
-import { STEP_INTRO, STEP_STATUS } from "../constants/main";
+import { STEP_INTRO, STEP_STATUS, STEP_RESULT } from "../constants/main";
 
 import { MainContainer, TestWrapper } from "./styles";
 
@@ -31,6 +32,7 @@ const Main = () => {
           <Top />
           {currentStep === STEP_INTRO && <Intro />}
           {currentStep === STEP_STATUS && <Status />}
+          {currentStep === STEP_RESULT && <ResultOrder />}
           {currentStep > STEP_INTRO && <Step />}
         </MainContext.Provider>
       </TestWrapper>
