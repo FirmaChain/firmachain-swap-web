@@ -2,16 +2,19 @@ import styled from "styled-components";
 
 export const IntroContainer = styled.div`
   width: 100%;
-  margin-bottom: 30px;
+  padding-bottom: 50px;
 `;
 
 export const SwapIcon = styled.div`
-  width: 200px;
+  width: 100%;
   height: 200px;
-  background-color: gray;
   margin: auto;
-  margin-top: 40px;
-  margin-bottom: 50px;
+  margin-top: 90px;
+  margin-bottom: 80px;
+  background-image: url("${process.env.PUBLIC_URL + "/images/main.png"}");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 `;
 
 export const SwapButton = styled.div`
@@ -25,6 +28,7 @@ export const SwapButton = styled.div`
   color: white;
   margin: 0px auto 0 auto;
   text-align: center;
+  font-family: "Chakra" !important;
 `;
 
 export const StatusLink = styled.div`

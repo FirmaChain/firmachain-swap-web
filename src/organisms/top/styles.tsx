@@ -5,17 +5,26 @@ export const TopContainer = styled.div`
   margin-bottom: 30px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const MainTypo = styled.div`
-  font-size: 26px;
+  font-size: 42px;
   color: white;
   margin-top: 40px;
   text-align: center;
+  font-family: "ChakraBold" !important;
 `;
+
 export const SubTypo = styled.div`
-  font-size: 14x;
+  width: 400px;
+  height: 30px;
+  line-height: 30px;
+  border-radius: 4px;
+  font-size: 15px;
   color: #bbb;
-  margin-top: 20px;
+  margin-top: 30px;
   text-align: center;
+  background-color: #2c2c38;
 `;

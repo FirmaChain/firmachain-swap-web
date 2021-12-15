@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const StatusContainer = styled.div`
   width: 100%;
-  min-height: 700px;
+  min-height: 650px;
   margin-bottom: 30px;
 `;
 

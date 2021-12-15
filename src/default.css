@@ -100,7 +100,6 @@ section {
 }
 body {
   width: 100vw;
-  height: 100vh;
   line-height: 1;
 }
 ol,
@@ -131,20 +130,13 @@ table {
 html,
 body {
   width: 100%;
-  height: 100%;
   padding: 0;
   margin: 0;
-  background-color: #131317;
+  background-color: #1c1c24;
 }
 
 body > #root {
-  display: flex;
-  align-items: center;
-  justify-items: center;
-  flex-direction: column;
-}
-body > #root > div {
-  height: 100vh;
+  width: 100%;
 }
 
 a {
@@ -154,7 +146,6 @@ a {
 a:hover,
 a:active {
   text-decoration: none;
-  background-color: #fff;
 }
 
 ::-webkit-scrollbar {
@@ -177,4 +168,22 @@ a:active {
 * {
   font-family: "Lato" !important;
   font-size: 14px;
+}
+
+@font-face {
+  src: url("./constants/fonts/ChakraPetch-Medium.ttf") format("truetype");
+  font-family: "Chakra";
+}
+
+@font-face {
+  src: url("./constants/fonts/ChakraPetch-SemiBold.ttf") format("truetype");
+  font-family: "ChakraBold";
+}
+
+body {
+  min-height: 100vh;
+}
+
+body > #root > div {
+  min-height: 100vh;
 }

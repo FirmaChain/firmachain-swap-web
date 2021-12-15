@@ -8,7 +8,7 @@ import Step from "../organisms/step";
 
 import { STEP_INTRO, STEP_STATUS } from "../constants/main";
 
-import { MainContainer } from "./styles";
+import { MainContainer, TestWrapper } from "./styles";
 
 interface IMainState {
   setStep: (value: number) => void;
@@ -25,13 +25,15 @@ const Main = () => {
 
   return (
     <MainContainer>
-      <MainContext.Provider value={{ setStep, currentStep }}>
-        <Header />
-        <Top />
-        {currentStep === STEP_INTRO && <Intro />}
-        {currentStep === STEP_STATUS && <Status />}
-        {currentStep > STEP_INTRO && <Step />}
-      </MainContext.Provider>
+      <TestWrapper>
+        <MainContext.Provider value={{ setStep, currentStep }}>
+          <Header />
+          <Top />
+          {currentStep === STEP_INTRO && <Intro />}
+          {currentStep === STEP_STATUS && <Status />}
+          {currentStep > STEP_INTRO && <Step />}
+        </MainContext.Provider>
+      </TestWrapper>
     </MainContainer>
   );
 };

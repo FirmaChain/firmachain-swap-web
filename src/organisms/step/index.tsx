@@ -6,12 +6,14 @@ import { convertNumber, copyToClipboard } from "../../utils/common";
 import { MainContext } from "../../pages/main";
 import { STEP_1, STEP_2, STEP_3, STEP_STATUS } from "../../constants/main";
 import { terms } from "../../terms";
-import { Modal } from "../../components/modal";
+
+import { ConfirmModal } from "../modals";
 
 import Progressbar from "../../components/progressbar";
 import Checkbox from "../../components/checkbox";
 
 import {
+  StepWrapper,
   StepList,
   Step,
   BigLabel,
@@ -23,11 +25,6 @@ import {
   NotiCard,
   Card,
   InputTypo,
-  ModalContainer,
-  ModalTitle,
-  ModalContent,
-  CopyIcon,
-  OrderWrapper,
 } from "./styles";
 
 const Main = () => {
@@ -120,132 +117,104 @@ const Main = () => {
   };
   return (
     <>
-      <Modal
+      <ConfirmModal
         visible={confirmModal}
-        closable={true}
         onClose={() => {
           toggleModal(false);
         }}
-        width={"490px"}
-      >
-        <ModalContainer>
-          <ModalTitle>CONFIRM</ModalTitle>
-          <ModalContent>
-            <InputWrapper
-              style={{
-                width: "calc(100% - 40px)",
-                marginTop: "20px",
-                marginBottom: "12px",
-                backgroundColor: "#292931",
-                borderRadius: "8px",
-                padding: "15px 20px",
-              }}
-            >
-              <Label>Order Id</Label>
-              <OrderWrapper>
-                <InputTypo>{orderId}</InputTypo>
-                <CopyIcon onClick={copy} viewBox="0 0 24 24" width="18px" height="18px">
-                  <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm-1 4 6 6v10c0 1.1-.9 2-2 2H7.99C6.89 23 6 22.1 6 21l.01-14c0-1.1.89-2 1.99-2h7zm-1 7h5.5L14 6.5V12z"></path>
-                </CopyIcon>
-              </OrderWrapper>
-            </InputWrapper>
-            <div style={{ color: "#ffc543", fontSize: "12px", marginLeft: "3px" }}>Please copy this order ID.</div>
-            {/* <NotiCard></NotiCard> */}
+        orderId={orderId}
+        confirmAction={confirmSwap}
+      />
+      <StepWrapper>
+        <Progressbar currentStep={currentStep} />
+        <StepList>
+          {currentStep === STEP_1 && (
+            <Step>
+              <BigLabel>Terms and Conditions</BigLabel>
+              <Card>
+                <TermText>{terms}</TermText>
+                <Checkbox checked={checked} onClickCheckBox={onClickCheckBox}>
+                  I agree with the Terms and Conditions
+                </Checkbox>
+              </Card>
+              <NextButton active={checked} onClick={() => setStep(STEP_2)}>
+                NEXT
+              </NextButton>
+            </Step>
+          )}
+          {currentStep === STEP_2 && (
+            <Step>
+              <BigLabel>Input Your Order</BigLabel>
+              <Card>
+                <InputWrapper>
+                  <Label>Your ETH Wallet Address</Label>
+                  <InputBoxDefault placeholder="0x000000" value={ethAddress} onChange={onChangeEthAddress} />
+                </InputWrapper>
 
-            <NextButton active={true} onClick={confirmSwap} style={{ marginTop: "40px" }}>
-              CONFIRM
-            </NextButton>
-          </ModalContent>
-        </ModalContainer>
-      </Modal>
-      <Progressbar currentStep={currentStep} />
-      <StepList>
-        {currentStep === STEP_1 && (
-          <Step>
-            <BigLabel>Terms and Conditions</BigLabel>
-            <Card>
-              <TermText>{terms}</TermText>
-              <Checkbox checked={checked} onClickCheckBox={onClickCheckBox}>
-                I agree with the Terms and Conditions
-              </Checkbox>
-            </Card>
-            <NextButton active={checked} onClick={() => setStep(STEP_2)}>
-              NEXT
-            </NextButton>
-          </Step>
-        )}
-        {currentStep === STEP_2 && (
-          <Step>
-            <BigLabel>Input Your Order</BigLabel>
-            <Card>
-              <InputWrapper>
-                <Label>Your ETH Wallet Address</Label>
-                <InputBoxDefault placeholder="0x000000" value={ethAddress} onChange={onChangeEthAddress} />
-              </InputWrapper>
+                <InputWrapper>
+                  <Label>Your Firma Wallet Address</Label>
+                  {/* <LedgerButton>Ledger</LedgerButton> */}
+                  <InputBoxDefault placeholder="firmaxxxxxx" value={firmaAddress} onChange={onChangeFirmaAddress} />
+                </InputWrapper>
 
-              <InputWrapper>
-                <Label>Your Firma Wallet Address</Label>
-                {/* <LedgerButton>Ledger</LedgerButton> */}
-                <InputBoxDefault placeholder="firmaxxxxxx" value={firmaAddress} onChange={onChangeFirmaAddress} />
-              </InputWrapper>
+                <InputWrapper>
+                  <Label>Swap Amount (FCT)</Label>
+                  <InputBoxDefault
+                    placeholder="10.000000"
+                    value={amount}
+                    onChange={onChangeAmount}
+                    onKeyDown={onChangeKeyDown}
+                    step="0.1"
+                    type="number"
+                  />
+                </InputWrapper>
+                <InputWrapper>
+                  <Label>Your Email Address (Optional)</Label>
+                  <InputBoxDefault value={emailAddress} onChange={onChangeEmailAddress} />
+                  <NotiCard>
+                    If you provide your e-mail to us you can receive progress updates on token swap and other related
+                    issues.
+                  </NotiCard>
+                </InputWrapper>
+              </Card>
+              <NextButton active={activeStep2Next} onClick={() => activeStep2Next && setStep(STEP_3)}>
+                NEXT
+              </NextButton>
+            </Step>
+          )}
+          {currentStep === STEP_3 && (
+            <Step>
+              <BigLabel>Confirm Your Order</BigLabel>
+              <Card>
+                <InputWrapper>
+                  <Label>From (ETH)</Label>
+                  <InputTypo>{ethAddress}</InputTypo>
+                </InputWrapper>
+                <InputWrapper>
+                  <Label>To (FirmaChain)</Label>
+                  <InputTypo>{firmaAddress}</InputTypo>
+                </InputWrapper>
+                <InputWrapper>
+                  <Label>Amount</Label>
+                  <InputTypo>{`${amount} FCT`}</InputTypo>
+                </InputWrapper>
+                <InputWrapper>
+                  <Label>Email</Label>
+                  <InputTypo>{emailAddress}</InputTypo>
+                </InputWrapper>
 
-              <InputWrapper>
-                <Label>Swap Amount (FCT)</Label>
-                <InputBoxDefault
-                  placeholder="10.000000"
-                  value={amount}
-                  onChange={onChangeAmount}
-                  onKeyDown={onChangeKeyDown}
-                  step="0.1"
-                  type="number"
-                />
-              </InputWrapper>
-              <InputWrapper>
-                <Label>Your Email Address (Optional)</Label>
-                <InputBoxDefault value={emailAddress} onChange={onChangeEmailAddress} />
-                <NotiCard>
-                  If you provide your e-mail to us you can receive progress updates on token swap and other related
-                  issues.
-                </NotiCard>
-              </InputWrapper>
-            </Card>
-            <NextButton active={activeStep2Next} onClick={() => activeStep2Next && setStep(STEP_3)}>
-              NEXT
-            </NextButton>
-          </Step>
-        )}
-        {currentStep === STEP_3 && (
-          <Step>
-            <BigLabel>Confirm Your Order</BigLabel>
-            <Card>
-              <InputWrapper>
-                <Label>From (ETH)</Label>
-                <InputTypo>{ethAddress}</InputTypo>
-              </InputWrapper>
-              <InputWrapper>
-                <Label>To (FirmaChain)</Label>
-                <InputTypo>{firmaAddress}</InputTypo>
-              </InputWrapper>
-              <InputWrapper>
-                <Label>Amount</Label>
-                <InputTypo>{`${amount} FCT`}</InputTypo>
-              </InputWrapper>
-              <InputWrapper>
-                <Label>Email</Label>
-                <InputTypo>{emailAddress}</InputTypo>
-              </InputWrapper>
-
-              <InputWrapper>
-                <Label>Order Id</Label>
-                <InputTypo>{orderId}</InputTypo>
-              </InputWrapper>
-            </Card>
-            <NextButton active={true} onClick={() => showConfirmModal()}>
-              CONFIRM
-            </NextButton>
-          </Step>
-        )}
-      </StepList>
+                <InputWrapper>
+                  <Label>Order Id</Label>
+                  <InputTypo>{orderId}</InputTypo>
+                </InputWrapper>
+              </Card>
+              <NextButton active={true} onClick={() => showConfirmModal()}>
+                CONFIRM
+              </NextButton>
+            </Step>
+          )}
+        </StepList>
+      </StepWrapper>
     </>
   );
 };
