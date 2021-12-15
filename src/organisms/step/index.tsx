@@ -1,0 +1,253 @@
+import React, { useContext, useState, useEffect } from "react";
+import { useSnackbar } from "notistack";
+import axios from "axios";
+
+import { convertNumber, copyToClipboard } from "../../utils/common";
+import { MainContext } from "../../pages/main";
+import { STEP_1, STEP_2, STEP_3, STEP_STATUS } from "../../constants/main";
+import { terms } from "../../terms";
+import { Modal } from "../../components/modal";
+
+import Progressbar from "../../components/progressbar";
+import Checkbox from "../../components/checkbox";
+
+import {
+  StepList,
+  Step,
+  BigLabel,
+  Label,
+  TermText,
+  NextButton,
+  InputWrapper,
+  InputBoxDefault,
+  NotiCard,
+  Card,
+  InputTypo,
+  ModalContainer,
+  ModalTitle,
+  ModalContent,
+  CopyIcon,
+  OrderWrapper,
+} from "./styles";
+
+const Main = () => {
+  const { enqueueSnackbar } = useSnackbar();
+  const { setStep, currentStep } = useContext(MainContext);
+  const [confirmModal, toggleModal] = useState(false);
+
+  const [checked, setChecked] = useState(false);
+  const [activeStep2Next, setActiveStep2Next] = useState(false);
+  const [firmaAddress, setFirmaAddress] = useState("");
+  const [ethAddress, setEthAddress] = useState("");
+  const [amount, setAmount] = useState("");
+  const [emailAddress, setEmailAddress] = useState("");
+  const [orderId, setOrderId] = useState("");
+
+  useEffect(() => {
+    setActiveStep2Next(firmaAddress.length === 44 && ethAddress.length === 42 && convertNumber(amount) > 0);
+  }, [firmaAddress, ethAddress, amount]);
+
+  useEffect(() => {
+    setOrderId(generateOrderId());
+  }, []);
+
+  const generateOrderId = () => {
+    return (
+      "order" +
+      Math.floor(new Date().valueOf() * Math.random())
+        .toString()
+        .padStart(40, Math.random().toString(36).substr(2, 11))
+    );
+  };
+
+  const onClickCheckBox = () => {
+    setChecked(!checked);
+  };
+
+  const onChangeFirmaAddress = (e: any) => {
+    if (e === null) return;
+    setFirmaAddress(e.target.value);
+  };
+
+  const onChangeEthAddress = (e: any) => {
+    if (e === null) return;
+    setEthAddress(e.target.value);
+  };
+
+  const onChangeAmount = (e: any) => {
+    if (e === null) return;
+    setAmount(e.target.value.replace(/(\.\d{6})\d+/g, "$1"));
+  };
+
+  const onChangeKeyDown = (e: any) => {
+    if (e.keyCode === 38 || e.keyCode === 40) {
+      e.preventDefault();
+    }
+  };
+
+  const onChangeEmailAddress = (e: any) => {
+    if (e === null) return;
+    setEmailAddress(e.target.value);
+  };
+
+  const copy = () => {
+    copyToClipboard(orderId);
+
+    enqueueSnackbar("Copied", {
+      variant: "success",
+      autoHideDuration: 1000,
+    });
+  };
+
+  const showConfirmModal = () => {
+    toggleModal(true);
+  };
+
+  const confirmSwap = () => {
+    axios
+      .post(
+        `${process.env.REACT_APP_API_HOST}/swaps`,
+        { orderId, ethAddress, firmaAddress, amount: Number(amount), email: emailAddress },
+        { headers: { "Content-Type": `application/json` } }
+      )
+      .then((res) => {
+        toggleModal(false);
+        setStep(STEP_STATUS);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+  return (
+    <>
+      <Modal
+        visible={confirmModal}
+        closable={true}
+        onClose={() => {
+          toggleModal(false);
+        }}
+        width={"490px"}
+      >
+        <ModalContainer>
+          <ModalTitle>CONFIRM</ModalTitle>
+          <ModalContent>
+            <InputWrapper
+              style={{
+                width: "calc(100% - 40px)",
+                marginTop: "20px",
+                marginBottom: "12px",
+                backgroundColor: "#292931",
+                borderRadius: "8px",
+                padding: "15px 20px",
+              }}
+            >
+              <Label>Order Id</Label>
+              <OrderWrapper>
+                <InputTypo>{orderId}</InputTypo>
+                <CopyIcon onClick={copy} viewBox="0 0 24 24" width="18px" height="18px">
+                  <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm-1 4 6 6v10c0 1.1-.9 2-2 2H7.99C6.89 23 6 22.1 6 21l.01-14c0-1.1.89-2 1.99-2h7zm-1 7h5.5L14 6.5V12z"></path>
+                </CopyIcon>
+              </OrderWrapper>
+            </InputWrapper>
+            <div style={{ color: "#ffc543", fontSize: "12px", marginLeft: "3px" }}>Please copy this order ID.</div>
+            {/* <NotiCard></NotiCard> */}
+
+            <NextButton active={true} onClick={confirmSwap} style={{ marginTop: "40px" }}>
+              CONFIRM
+            </NextButton>
+          </ModalContent>
+        </ModalContainer>
+      </Modal>
+      <Progressbar currentStep={currentStep} />
+      <StepList>
+        {currentStep === STEP_1 && (
+          <Step>
+            <BigLabel>Terms and Conditions</BigLabel>
+            <Card>
+              <TermText>{terms}</TermText>
+              <Checkbox checked={checked} onClickCheckBox={onClickCheckBox}>
+                I agree with the Terms and Conditions
+              </Checkbox>
+            </Card>
+            <NextButton active={checked} onClick={() => setStep(STEP_2)}>
+              NEXT
+            </NextButton>
+          </Step>
+        )}
+        {currentStep === STEP_2 && (
+          <Step>
+            <BigLabel>Input Your Order</BigLabel>
+            <Card>
+              <InputWrapper>
+                <Label>Your ETH Wallet Address</Label>
+                <InputBoxDefault placeholder="0x000000" value={ethAddress} onChange={onChangeEthAddress} />
+              </InputWrapper>
+
+              <InputWrapper>
+                <Label>Your Firma Wallet Address</Label>
+                {/* <LedgerButton>Ledger</LedgerButton> */}
+                <InputBoxDefault placeholder="firmaxxxxxx" value={firmaAddress} onChange={onChangeFirmaAddress} />
+              </InputWrapper>
+
+              <InputWrapper>
+                <Label>Swap Amount (FCT)</Label>
+                <InputBoxDefault
+                  placeholder="10.000000"
+                  value={amount}
+                  onChange={onChangeAmount}
+                  onKeyDown={onChangeKeyDown}
+                  step="0.1"
+                  type="number"
+                />
+              </InputWrapper>
+              <InputWrapper>
+                <Label>Your Email Address (Optional)</Label>
+                <InputBoxDefault value={emailAddress} onChange={onChangeEmailAddress} />
+                <NotiCard>
+                  If you provide your e-mail to us you can receive progress updates on token swap and other related
+                  issues.
+                </NotiCard>
+              </InputWrapper>
+            </Card>
+            <NextButton active={activeStep2Next} onClick={() => activeStep2Next && setStep(STEP_3)}>
+              NEXT
+            </NextButton>
+          </Step>
+        )}
+        {currentStep === STEP_3 && (
+          <Step>
+            <BigLabel>Confirm Your Order</BigLabel>
+            <Card>
+              <InputWrapper>
+                <Label>From (ETH)</Label>
+                <InputTypo>{ethAddress}</InputTypo>
+              </InputWrapper>
+              <InputWrapper>
+                <Label>To (FirmaChain)</Label>
+                <InputTypo>{firmaAddress}</InputTypo>
+              </InputWrapper>
+              <InputWrapper>
+                <Label>Amount</Label>
+                <InputTypo>{`${amount} FCT`}</InputTypo>
+              </InputWrapper>
+              <InputWrapper>
+                <Label>Email</Label>
+                <InputTypo>{emailAddress}</InputTypo>
+              </InputWrapper>
+
+              <InputWrapper>
+                <Label>Order Id</Label>
+                <InputTypo>{orderId}</InputTypo>
+              </InputWrapper>
+            </Card>
+            <NextButton active={true} onClick={() => showConfirmModal()}>
+              CONFIRM
+            </NextButton>
+          </Step>
+        )}
+      </StepList>
+    </>
+  );
+};
+
+export default React.memo(Main);
