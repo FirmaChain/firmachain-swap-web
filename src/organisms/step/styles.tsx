@@ -84,6 +84,21 @@ export const NextButton = styled.div<{ active: boolean }>`
   ${(props) => (props.active ? `` : `background-color: #444;color:#777`)}
 `;
 
+export const BackButton = styled.div<{ active: boolean }>`
+  width: 144px;
+  height: 36px;
+  line-height: 36px;
+  text-align: center;
+  margin: 14px auto 0 auto;
+  color: white;
+  font-size: 14px;
+  background-color: #3550de80;
+  border-radius: 20px;
+  cursor: pointer;
+  font-family: "Chakra" !important;
+  ${(props) => (props.active ? `` : `background-color: #444;color:#777`)}
+`;
+
 export const InputWrapper = styled.div`
   position: relative;
   width: 100%;

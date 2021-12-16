@@ -24,6 +24,7 @@ import {
   Label,
   TermText,
   NextButton,
+  BackButton,
   InputWrapper,
   InputBoxDefault,
   NotiCard,
@@ -222,6 +223,9 @@ const Main = () => {
               <NextButton active={true} onClick={() => showConfirmModal()}>
                 CONFIRM
               </NextButton>
+              <BackButton active={true} onClick={() => setStep(STEP_2)}>
+                BACK
+              </BackButton>
             </Step>
           )}
         </StepList>
