@@ -50,7 +50,7 @@ const ResultOrder = () => {
         <BigLabel>Registration</BigLabel>
 
         <NotiCard>
-          <NotiTypo>Please send the amount of FCT to this address</NotiTypo>
+          <NotiTypo>Please send FCT to this address</NotiTypo>
           <a
             href={`https://ropsten.etherscan.io/address/${process.env.REACT_APP_FIRMA_ETH_ADDRESS}#tokentxns`}
             target="_blank"
