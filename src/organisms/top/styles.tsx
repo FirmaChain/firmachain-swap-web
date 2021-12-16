@@ -18,11 +18,11 @@ export const MainTypo = styled.div`
 `;
 
 export const SubTypo = styled.div`
-  width: 400px;
+  width: 355px;
   height: 30px;
   line-height: 30px;
   border-radius: 4px;
-  font-size: 15px;
+  font-size: 14px;
   color: #bbb;
   margin-top: 30px;
   text-align: center;
