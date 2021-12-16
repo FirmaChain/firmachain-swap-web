@@ -9,6 +9,20 @@ to {
 }
 `;
 
+export const LoadingWrapper = styled.div<{ active: boolean }>`
+  position: absolute;
+  top: 0;
+  left: 0px;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000000bf;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  ${(props) => (props.active ? `` : `display:none`)}
+`;
+
 export const StepWrapper = styled.div`
   width: 100%;
   height: 100%;

@@ -75,9 +75,7 @@ const Status = () => {
   const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
-    console.log(order);
     if (order.orderId !== undefined && order.orderId !== "") {
-      console.log(order.orderId);
       setSearchText(order.orderId);
       search(order.orderId);
     } else {
@@ -90,7 +88,7 @@ const Status = () => {
           console.log(e);
         });
     }
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const onKeyDownSearch = (e: any) => {
     if (e.key === "Enter") {

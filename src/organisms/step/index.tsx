@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import axios from "axios";
+import Loader from "react-loader-spinner";
 
 import { convertNumber } from "../../utils/common";
 import { MainContext } from "../../pages/main";
@@ -12,7 +13,10 @@ import { ConfirmModal } from "../modals";
 import Progressbar from "../../components/progressbar";
 import Checkbox from "../../components/checkbox";
 
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+
 import {
+  LoadingWrapper,
   StepWrapper,
   StepList,
   Step,
@@ -33,11 +37,12 @@ const Main = () => {
 
   const [checked, setChecked] = useState(false);
   const [activeStep2Next, setActiveStep2Next] = useState(false);
-  const [firmaAddress, setFirmaAddress] = useState("");
-  const [ethAddress, setEthAddress] = useState("");
-  const [amount, setAmount] = useState("");
+  const [firmaAddress, setFirmaAddress] = useState("firma1am2wsgu98xn63lwsf07h4jaxtwphlhetacg5z3");
+  const [ethAddress, setEthAddress] = useState("0xe8A651C8788EC9175b5c9aEC1Ca69E3057A35ed9");
+  const [amount, setAmount] = useState("1");
   const [emailAddress, setEmailAddress] = useState("");
   const [orderId, setOrderId] = useState("");
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     setActiveStep2Next(firmaAddress.length === 44 && ethAddress.length === 42 && convertNumber(amount) > 0);
@@ -91,6 +96,9 @@ const Main = () => {
   };
 
   const confirmSwap = () => {
+    setLoading(true);
+    toggleModal(false);
+
     axios
       .post(
         `${process.env.REACT_APP_API_HOST}/swaps`,
@@ -98,15 +106,17 @@ const Main = () => {
         { headers: { "Content-Type": `application/json` } }
       )
       .then((res) => {
-        toggleModal(false);
-        userActions.handleUserOrder({
-          orderId,
-          ethAddress,
-          firmaAddress,
-          amount,
-          emailAddress,
-        });
-        setStep(STEP_RESULT);
+        setTimeout(() => {
+          userActions.handleUserOrder({
+            orderId,
+            ethAddress,
+            firmaAddress,
+            amount,
+            emailAddress,
+          });
+          setLoading(false);
+          setStep(STEP_RESULT);
+        }, 2000);
       })
       .catch((e) => {
         console.log(e);
@@ -114,6 +124,9 @@ const Main = () => {
   };
   return (
     <>
+      <LoadingWrapper active={isLoading}>
+        <Loader type="MutatingDots" color="#0080c4" secondaryColor="#00d8ff" height={100} width={100} />
+      </LoadingWrapper>
       <ConfirmModal
         visible={confirmModal}
         onClose={() => {
