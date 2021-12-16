@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import { useSelector } from "react-redux";
 
 import { MainContext } from "../../pages/main";
 import { STEP_STATUS, STEP_1 } from "../../constants/main";

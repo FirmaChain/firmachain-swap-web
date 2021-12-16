@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import axios from "axios";
 import Loader from "react-loader-spinner";
+import { useSnackbar } from "notistack";
 
 import { convertNumber } from "../../utils/common";
 import { MainContext } from "../../pages/main";
@@ -33,6 +34,7 @@ import {
 } from "./styles";
 
 const Main = () => {
+  const { enqueueSnackbar } = useSnackbar();
   const { setStep, currentStep } = useContext(MainContext);
   const [confirmModal, toggleModal] = useState(false);
 
@@ -123,6 +125,26 @@ const Main = () => {
         console.log(e);
       });
   };
+
+  const checkStep2 = () => {
+    if (emailAddress !== "") {
+      var pattern = new RegExp(
+        /^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i
+      );
+      if (!pattern.test(emailAddress)) {
+        // Invalidate
+        enqueueSnackbar("Invalid your email", {
+          variant: "error",
+          autoHideDuration: 1000,
+        });
+      } else {
+        activeStep2Next && setStep(STEP_3);
+      }
+    } else {
+      activeStep2Next && setStep(STEP_3);
+    }
+  };
+
   return (
     <>
       <LoadingWrapper active={isLoading}>
@@ -189,7 +211,7 @@ const Main = () => {
                   </NotiCard>
                 </InputWrapper>
               </Card>
-              <NextButton active={activeStep2Next} onClick={() => activeStep2Next && setStep(STEP_3)}>
+              <NextButton active={activeStep2Next} onClick={() => checkStep2()}>
                 NEXT
               </NextButton>
             </Step>
@@ -212,7 +234,7 @@ const Main = () => {
                 </InputWrapper>
                 <InputWrapper>
                   <Label>Email</Label>
-                  <InputTypo>{emailAddress}</InputTypo>
+                  <InputTypo>{emailAddress ? emailAddress : "-"}</InputTypo>
                 </InputWrapper>
 
                 <InputWrapper>
