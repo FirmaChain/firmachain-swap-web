@@ -37,9 +37,9 @@ const Main = () => {
 
   const [checked, setChecked] = useState(false);
   const [activeStep2Next, setActiveStep2Next] = useState(false);
-  const [firmaAddress, setFirmaAddress] = useState("firma1am2wsgu98xn63lwsf07h4jaxtwphlhetacg5z3");
-  const [ethAddress, setEthAddress] = useState("0xe8A651C8788EC9175b5c9aEC1Ca69E3057A35ed9");
-  const [amount, setAmount] = useState("1");
+  const [firmaAddress, setFirmaAddress] = useState("");
+  const [ethAddress, setEthAddress] = useState("");
+  const [amount, setAmount] = useState("");
   const [emailAddress, setEmailAddress] = useState("");
   const [orderId, setOrderId] = useState("");
   const [isLoading, setLoading] = useState(false);
