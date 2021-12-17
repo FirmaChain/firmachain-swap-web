@@ -5,6 +5,7 @@
   "dependencies": {
     "@emotion/react": "^11.5.0",
     "@emotion/styled": "^11.3.0",
+    "@firmachain/firma-js": "^0.2.16",
     "@mui/icons-material": "^5.1.0",
     "@mui/material": "^5.1.0",
     "@reduxjs/toolkit": "^1.7.0",

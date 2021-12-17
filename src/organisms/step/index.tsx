@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import axios from "axios";
 import Loader from "react-loader-spinner";
 import { useSnackbar } from "notistack";
+import { FirmaUtil } from "@firmachain/firma-js";
 
 import { convertNumber } from "../../utils/common";
 import { MainContext } from "../../pages/main";
@@ -48,8 +49,10 @@ const Main = () => {
   const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
-    setActiveStep2Next(firmaAddress.length === 44 && ethAddress.length === 42 && convertNumber(amount) > 0);
-  }, [firmaAddress, ethAddress, amount]);
+    setActiveStep2Next(
+      firmaAddress.length === 44 && ethAddress.length === 42 && convertNumber(amount) > 0 && emailAddress.length > 0
+    );
+  }, [firmaAddress, ethAddress, amount, emailAddress]);
 
   useEffect(() => {
     setOrderId(generateOrderId());
@@ -126,20 +129,38 @@ const Main = () => {
       });
   };
 
+  const isValidEmail = (value: string) => {
+    var pattern = new RegExp(
+      /^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i
+    );
+    return pattern.test(value);
+  };
+
+  const isValidEth = (value: string) => {
+    var pattern = new RegExp(/^(0x)?[0-9a-f]{40}$/i);
+    return pattern.test(value);
+  };
+
+  const isValidFirma = (value: string) => {
+    return FirmaUtil.isValidAddress(value);
+  };
+
   const checkStep2 = () => {
-    if (emailAddress !== "") {
-      var pattern = new RegExp(
-        /^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i
-      );
-      if (!pattern.test(emailAddress)) {
-        // Invalidate
-        enqueueSnackbar("Invalid your email", {
-          variant: "error",
-          autoHideDuration: 1000,
-        });
-      } else {
-        activeStep2Next && setStep(STEP_3);
-      }
+    if (isValidFirma(firmaAddress) === false) {
+      enqueueSnackbar("Invalid your firma address", {
+        variant: "error",
+        autoHideDuration: 1000,
+      });
+    } else if (isValidEth(ethAddress) === false) {
+      enqueueSnackbar("Invalid your eth address", {
+        variant: "error",
+        autoHideDuration: 1000,
+      });
+    } else if (isValidEmail(emailAddress) === false) {
+      enqueueSnackbar("Invalid your email", {
+        variant: "error",
+        autoHideDuration: 1000,
+      });
     } else {
       activeStep2Next && setStep(STEP_3);
     }
@@ -203,7 +224,7 @@ const Main = () => {
                   />
                 </InputWrapper>
                 <InputWrapper>
-                  <Label>Your Email Address (Optional)</Label>
+                  <Label>Your Email Address</Label>
                   <InputBoxDefault value={emailAddress} onChange={onChangeEmailAddress} />
                   <NotiCard>
                     If you provide your e-mail to us you can receive progress updates on token swap and other related

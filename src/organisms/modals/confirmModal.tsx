@@ -2,7 +2,7 @@ import React from "react";
 
 import { Modal } from "../../components/modal";
 
-import { ModalContainer, ModalTitle, ModalContent, NextButton } from "./styles";
+import { ModalContainer, ModalContent, NextButton } from "./styles";
 
 const ConfirmModal = ({ visible, onClose, confirmAction }: any) => {
   return (
@@ -15,8 +15,12 @@ const ConfirmModal = ({ visible, onClose, confirmAction }: any) => {
       width={"490px"}
     >
       <ModalContainer>
-        <ModalTitle>CONFIRM</ModalTitle>
         <ModalContent>
+          <div
+            style={{ textAlign: "center", color: "white", marginTop: "20px", marginBottom: "20px", fontSize: "16px" }}
+          >
+            Do you want to confirm the registration for the swap?
+          </div>
           <NextButton
             active={true}
             onClick={() => {
