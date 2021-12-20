@@ -1,20 +1,8 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 export const IntroContainer = styled.div`
   width: 100%;
   padding-bottom: 50px;
-`;
-
-export const SwapIcon = styled.div`
-  width: 100%;
-  height: 200px;
-  margin: auto;
-  margin-top: 40px;
-  margin-bottom: 50px;
-  background-image: url("${process.env.PUBLIC_URL + "/images/main.png"}");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
 `;
 
 export const SwapButton = styled.div`
@@ -121,4 +109,61 @@ export const LoadingWrapper = styled.div<{ active: boolean }>`
   justify-content: center;
   align-items: center;
   ${(props) => (props.active ? `` : `display:none`)}
+`;
+
+export const SwapIcon = styled.div`
+  width: 100%;
+  height: 200px;
+  margin: auto;
+  margin-top: 40px;
+  margin-bottom: 50px;
+  background-image: url("${process.env.PUBLIC_URL + "/images/main.png"}");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0 15px;
+`;
+
+const fadeInout = keyframes`
+  0%,100% { opacity: 0.2; transform:scale(0.9) }
+  50% { opacity: 1;transform:scale(1) }
+`;
+
+export const ArrowIconFirst = styled.div`
+  width: 32px;
+  height: 54px;
+  background-image: url("${process.env.PUBLIC_URL + `/images/arrow1.png`}");
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.2;
+  transform: scale(0.9);
+  animation: ${fadeInout} 2.3s ease-in-out 0s infinite;
+`;
+
+export const ArrowIconSecond = styled.div`
+  width: 32px;
+  height: 54px;
+  background-image: url("${process.env.PUBLIC_URL + `/images/arrow2.png`}");
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.2;
+  transform: scale(0.9);
+  animation: ${fadeInout} 2.3s ease-in-out 0.5s infinite;
+`;
+
+export const ArrowIconThird = styled.div`
+  width: 32px;
+  height: 54px;
+  background-image: url("${process.env.PUBLIC_URL + `/images/arrow3.png`}");
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.2;
+  transform: scale(0.9);
+  animation: ${fadeInout} 2.3s ease-in-out 1s infinite;
 `;

@@ -15,6 +15,9 @@ import {
   LoadingWrapper,
   IntroContainer,
   SwapIcon,
+  ArrowIconFirst,
+  ArrowIconSecond,
+  ArrowIconThird,
   SwapButton,
   StatusLink,
   Label,
@@ -116,7 +119,11 @@ const Top = () => {
         <Loader type="MutatingDots" color="#0080c4" secondaryColor="#00d8ff" height={100} width={100} />
       </LoadingWrapper>
       <IntroContainer>
-        <SwapIcon />
+        <SwapIcon>
+          <ArrowIconFirst />
+          <ArrowIconSecond />
+          <ArrowIconThird />
+        </SwapIcon>
         <InputWrapper>
           <Label>Your Firma Wallet Address</Label>
           <LedgerIconImg onClick={getAddressByLedger} />
