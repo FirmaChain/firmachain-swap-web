@@ -6,7 +6,9 @@ const Header = () => {
   return (
     <FooterContainer>
       <LeftTypo>Copyrightⓒ FirmaChain Pte. Ltd. | All Right Reserved.</LeftTypo>
-      <RightTypo>contact@firmachain.org</RightTypo>
+      <RightTypo>
+        <a href="mailto:contact@firmachain.org">contact@firmachain.org</a>
+      </RightTypo>
     </FooterContainer>
   );
 };

@@ -63,12 +63,15 @@ const Top = () => {
   const downloadWin = () => {
     window.open(downloadURLData.win);
   };
+
   const downloadMac = () => {
     window.open(downloadURLData.mac);
   };
+
   const downloadLinux = () => {
     window.open(downloadURLData.linux);
   };
+
   const LinktoWeb = () => {
     window.open(process.env.REACT_APP_STATION_HOST);
   };
