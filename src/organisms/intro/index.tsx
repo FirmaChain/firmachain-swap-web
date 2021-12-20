@@ -95,7 +95,7 @@ const Top = () => {
           });
         } else {
           enqueueSnackbar("Success get address from ledger", {
-            variant: "error",
+            variant: "success",
             autoHideDuration: 1500,
           });
           setFirmaAddress(result);
