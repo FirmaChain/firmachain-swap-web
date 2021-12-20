@@ -94,6 +94,10 @@ const Top = () => {
             autoHideDuration: 1500,
           });
         } else {
+          enqueueSnackbar("Success get address from ledger", {
+            variant: "error",
+            autoHideDuration: 1500,
+          });
           setFirmaAddress(result);
         }
       })
