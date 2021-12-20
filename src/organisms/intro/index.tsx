@@ -1,13 +1,18 @@
 import React, { useContext, useState, useEffect } from "react";
 import axios from "axios";
+import Loader from "react-loader-spinner";
 import { useSnackbar } from "notistack";
-import { FirmaUtil } from "@firmachain/firma-js";
 
+import { FirmaUtil } from "@firmachain/firma-js";
 import { MainContext } from "../../pages/main";
 import { userActions } from "../../redux/action";
 import { STEP_STATUS, STEP_1 } from "../../constants/main";
+import { getAddress } from "../../utils/ledger";
+
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 import {
+  LoadingWrapper,
   IntroContainer,
   SwapIcon,
   SwapButton,
@@ -17,6 +22,7 @@ import {
   InputBoxDefault,
   DownloadWrapper,
   DownloadItem,
+  LedgerIconImg,
 } from "./styles";
 
 const Top = () => {
@@ -24,6 +30,7 @@ const Top = () => {
   const { enqueueSnackbar } = useSnackbar();
 
   const [firmaAddress, setFirmaAddress] = useState("");
+  const [isLoading, setLoading] = useState(false);
   const [downloadURLData, setDownloadURLData] = useState({ win: "", mac: "", linux: "" });
 
   useEffect(() => {
@@ -72,26 +79,55 @@ const Top = () => {
     window.open(downloadURLData.linux);
   };
 
-  const LinktoWeb = () => {
+  const linktoWeb = () => {
     window.open(process.env.REACT_APP_STATION_HOST);
   };
 
+  const getAddressByLedger = () => {
+    setLoading(true);
+    getAddress()
+      .then((result) => {
+        setLoading(false);
+        if (result === undefined || result === "") {
+          enqueueSnackbar("Failed get address from ledger", {
+            variant: "error",
+            autoHideDuration: 1500,
+          });
+        } else {
+          setFirmaAddress(result);
+        }
+      })
+      .catch((e) => {
+        setLoading(false);
+        enqueueSnackbar("Failed connect to ledger", {
+          variant: "error",
+          autoHideDuration: 1500,
+        });
+      });
+  };
+
   return (
-    <IntroContainer>
-      <SwapIcon />
-      <InputWrapper>
-        <Label>Your Firma Wallet Address</Label>
-        <InputBoxDefault placeholder="firmaxxxxxxx" value={firmaAddress} onChange={onChangeFirmaAddress} />
-      </InputWrapper>
-      <SwapButton onClick={onClickStart}>SWAP START</SwapButton>
-      <StatusLink onClick={() => setStep(STEP_STATUS)}>SWAP STATUS</StatusLink>
-      <DownloadWrapper>
-        <DownloadItem src={process.env.PUBLIC_URL + "/images/icon_win.png"} onClick={downloadWin}></DownloadItem>
-        <DownloadItem src={process.env.PUBLIC_URL + "/images/icon_mac.png"} onClick={downloadMac}></DownloadItem>
-        <DownloadItem src={process.env.PUBLIC_URL + "/images/icon_linux.png"} onClick={downloadLinux}></DownloadItem>
-        <DownloadItem src={process.env.PUBLIC_URL + "/images/icon_web.png"} onClick={LinktoWeb}></DownloadItem>
-      </DownloadWrapper>
-    </IntroContainer>
+    <>
+      <LoadingWrapper active={isLoading}>
+        <Loader type="MutatingDots" color="#0080c4" secondaryColor="#00d8ff" height={100} width={100} />
+      </LoadingWrapper>
+      <IntroContainer>
+        <SwapIcon />
+        <InputWrapper>
+          <Label>Your Firma Wallet Address</Label>
+          <LedgerIconImg onClick={getAddressByLedger} />
+          <InputBoxDefault placeholder="firmaxxxxxxx" value={firmaAddress} onChange={onChangeFirmaAddress} />
+        </InputWrapper>
+        <SwapButton onClick={onClickStart}>SWAP START</SwapButton>
+        <StatusLink onClick={() => setStep(STEP_STATUS)}>SWAP STATUS</StatusLink>
+        <DownloadWrapper>
+          <DownloadItem src={process.env.PUBLIC_URL + "/images/icon_win.png"} onClick={downloadWin}></DownloadItem>
+          <DownloadItem src={process.env.PUBLIC_URL + "/images/icon_mac.png"} onClick={downloadMac}></DownloadItem>
+          <DownloadItem src={process.env.PUBLIC_URL + "/images/icon_linux.png"} onClick={downloadLinux}></DownloadItem>
+          <DownloadItem src={process.env.PUBLIC_URL + "/images/icon_web.png"} onClick={linktoWeb}></DownloadItem>
+        </DownloadWrapper>
+      </IntroContainer>
+    </>
   );
 };
 

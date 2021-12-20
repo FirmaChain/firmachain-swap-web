@@ -85,6 +85,7 @@ export const DownloadWrapper = styled.div`
   gap: 0 20px;
   justify-content: center;
 `;
+
 export const DownloadItem = styled.div<{ src: string }>`
   width: 25px;
   height: 25px;
@@ -93,4 +94,31 @@ export const DownloadItem = styled.div<{ src: string }>`
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
+`;
+
+export const LedgerIconImg = styled.div`
+  position: absolute;
+  top: 7px;
+  left: 195px;
+  width: 15px !important;
+  height: 15px !important;
+  cursor: pointer;
+  background: url("${process.env.PUBLIC_URL + `/images/ledger.png`}");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+`;
+
+export const LoadingWrapper = styled.div<{ active: boolean }>`
+  position: absolute;
+  top: 0;
+  left: 0px;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000000bf;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  ${(props) => (props.active ? `` : `display:none`)}
 `;
