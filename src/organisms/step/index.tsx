@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import axios from "axios";
 import Loader from "react-loader-spinner";
+import { useSelector } from "react-redux";
 import { useSnackbar } from "notistack";
 import { FirmaUtil } from "@firmachain/firma-js";
 
@@ -29,13 +30,13 @@ import {
   BackButton,
   InputWrapper,
   InputBoxDefault,
-  NotiCard,
   Card,
   InputTypo,
 } from "./styles";
 
 const Main = () => {
   const { enqueueSnackbar } = useSnackbar();
+  const { order } = useSelector((state: any) => state.user);
   const { setStep, currentStep } = useContext(MainContext);
   const [confirmModal, toggleModal] = useState(false);
 
@@ -55,8 +56,9 @@ const Main = () => {
   }, [firmaAddress, ethAddress, amount, emailAddress]);
 
   useEffect(() => {
+    setFirmaAddress(order.firmaAddress);
     setOrderId(generateOrderId());
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const generateOrderId = () => {
     return (
@@ -209,7 +211,12 @@ const Main = () => {
                 <InputWrapper>
                   <Label>Your Firma Wallet Address</Label>
                   {/* <LedgerButton>Ledger</LedgerButton> */}
-                  <InputBoxDefault placeholder="firmaxxxxxx" value={firmaAddress} onChange={onChangeFirmaAddress} />
+                  <InputBoxDefault
+                    placeholder="firmaxxxxxx"
+                    value={firmaAddress}
+                    onChange={onChangeFirmaAddress}
+                    readOnly={true}
+                  />
                 </InputWrapper>
 
                 <InputWrapper>
@@ -226,10 +233,6 @@ const Main = () => {
                 <InputWrapper>
                   <Label>Your Email Address</Label>
                   <InputBoxDefault value={emailAddress} onChange={onChangeEmailAddress} />
-                  <NotiCard>
-                    If you provide your e-mail to us you can receive progress updates on token swap and other related
-                    issues.
-                  </NotiCard>
                 </InputWrapper>
               </Card>
               <NextButton active={activeStep2Next} onClick={() => checkStep2()}>

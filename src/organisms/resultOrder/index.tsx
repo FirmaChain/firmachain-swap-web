@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { useSnackbar } from "notistack";
 import { MainContext } from "../../pages/main";
 import { STEP_STATUS } from "../../constants/main";
-// import { useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 import { copyToClipboard } from "../../utils/common";
 import styled from "styled-components";
@@ -32,7 +32,7 @@ const NotiAddress = styled.div`
 
 const ResultOrder = () => {
   const { enqueueSnackbar } = useSnackbar();
-  // const { order } = useSelector((state: any) => state.user);
+  const { order } = useSelector((state: any) => state.user);
   const { setStep } = useContext(MainContext);
 
   const copy = () => {
@@ -52,7 +52,7 @@ const ResultOrder = () => {
           Your registration is complete.
         </div>
         <NotiCard>
-          <NotiTypo>Please send FCT to this address</NotiTypo>
+          <NotiTypo>Please send {order.amount} FCT to this address</NotiTypo>
           <a
             href={`https://ropsten.etherscan.io/address/${process.env.REACT_APP_FIRMA_ETH_ADDRESS}#tokentxns`}
             target="_blank"

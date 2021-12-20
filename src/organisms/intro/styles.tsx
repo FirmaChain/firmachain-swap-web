@@ -9,8 +9,8 @@ export const SwapIcon = styled.div`
   width: 100%;
   height: 200px;
   margin: auto;
-  margin-top: 90px;
-  margin-bottom: 80px;
+  margin-top: 40px;
+  margin-bottom: 50px;
   background-image: url("${process.env.PUBLIC_URL + "/images/main.png"}");
   background-size: contain;
   background-repeat: no-repeat;
@@ -38,4 +38,59 @@ export const StatusLink = styled.div`
   text-align: center;
   text-decoration: underline;
   cursor: pointer;
+`;
+
+export const InputWrapper = styled.div`
+  position: relative;
+  width: 100%;
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  &:first-child {
+    & > div {
+    }
+  }
+`;
+
+export const Label = styled.div`
+  width: 100%;
+  height: 30px;
+  line-height: 30px;
+  font-size: 16px;
+  margin-bottom: 5px;
+  color: #999;
+`;
+
+export const InputBoxDefault = styled.input`
+  width: calc(100% - 24px);
+  height: 30px;
+  line-height: 30px;
+  margin: 0;
+  padding: 0 10px;
+  color: white;
+  background-color: transparent;
+  border: 0;
+  border-bottom: 1px solid #555;
+  ::-webkit-outer-spin-button,
+  ::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+`;
+
+export const DownloadWrapper = styled.div`
+  width: 100%;
+  margin-top: 50px;
+  display: flex;
+  gap: 0 20px;
+  justify-content: center;
+`;
+export const DownloadItem = styled.div<{ src: string }>`
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  background-image: url("${(props) => props.src}");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
 `;
