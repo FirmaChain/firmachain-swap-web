@@ -24,11 +24,14 @@ const Step4 = ({ toggleModal }: any) => {
   const { setStep } = useContext(MainContext);
 
   useEffect(() => {
-    enqueueSnackbar("Validation complete", {
-      variant: "success",
-      autoHideDuration: 1000,
-    });
-  }, []);
+    setTimeout(() => {
+      enqueueSnackbar("Validation complete", {
+        variant: "success",
+        autoHideDuration: 1000,
+      });
+    }, 500);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   const showConfirmModal = () => {
     toggleModal(true);
   };
