@@ -1,14 +1,34 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { useSnackbar } from "notistack";
 
 import { MainContext } from "../../pages/main";
 import { STEP_3 } from "../../constants/main";
-import { Step, BigLabel, Card, InputWrapper, InputTypo, Label, NextButton, BackButton } from "./styles";
+import {
+  Step,
+  BigLabel,
+  Card,
+  InputWrapper,
+  InputTypo,
+  Label,
+  NextButton,
+  BackButton,
+  Typo,
+  CheckIcon,
+  CheckBoxRound,
+} from "./styles";
 
 const Step4 = ({ toggleModal }: any) => {
   const { firmaAddress, ethAddress, amount, orderId, emailAddress } = useSelector((state: any) => state.user.order);
+  const { enqueueSnackbar } = useSnackbar();
   const { setStep } = useContext(MainContext);
 
+  useEffect(() => {
+    enqueueSnackbar("Validation complete", {
+      variant: "success",
+      autoHideDuration: 1000,
+    });
+  }, []);
   const showConfirmModal = () => {
     toggleModal(true);
   };
@@ -27,19 +47,39 @@ const Step4 = ({ toggleModal }: any) => {
       <Card>
         <InputWrapper>
           <Label>From (ETH)</Label>
-          <InputTypo>{ethAddress}</InputTypo>
+          <InputTypo>
+            <Typo>{ethAddress}</Typo>
+            <CheckIcon>
+              <CheckBoxRound />
+            </CheckIcon>
+          </InputTypo>
         </InputWrapper>
         <InputWrapper>
           <Label>To (FirmaChain)</Label>
-          <InputTypo>{firmaAddress}</InputTypo>
+          <InputTypo>
+            <Typo>{firmaAddress}</Typo>
+            <CheckIcon>
+              <CheckBoxRound />
+            </CheckIcon>
+          </InputTypo>
         </InputWrapper>
         <InputWrapper>
           <Label>Amount</Label>
-          <InputTypo>{`${amount} FCT`}</InputTypo>
+          <InputTypo>
+            <Typo> {`${amount} FCT`}</Typo>
+            <CheckIcon>
+              <CheckBoxRound />
+            </CheckIcon>
+          </InputTypo>
         </InputWrapper>
         <InputWrapper>
           <Label>Email</Label>
-          <InputTypo>{emailAddress ? emailAddress : "-"}</InputTypo>
+          <InputTypo>
+            <Typo>{emailAddress}</Typo>
+            <CheckIcon>
+              <CheckBoxRound />
+            </CheckIcon>
+          </InputTypo>
         </InputWrapper>
 
         <InputWrapper>
