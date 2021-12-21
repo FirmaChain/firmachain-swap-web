@@ -36,6 +36,15 @@ const Top = () => {
   const [isLoading, setLoading] = useState(false);
   const [downloadURLData, setDownloadURLData] = useState({ win: "", mac: "", linux: "" });
 
+  const generateOrderId = () => {
+    return (
+      "order" +
+      Math.floor(new Date().valueOf() * Math.random())
+        .toString()
+        .padStart(40, Math.random().toString(36).substr(2, 11))
+    );
+  };
+
   useEffect(() => {
     axios
       .get(`${process.env.REACT_APP_API_HOST}/stations/release/latest`)
@@ -54,7 +63,11 @@ const Top = () => {
   const onClickStart = () => {
     if (FirmaUtil.isValidAddress(firmaAddress)) {
       userActions.handleUserOrder({
+        orderId: generateOrderId(),
         firmaAddress,
+        ethAddress: "",
+        amount: "",
+        emailAddress: "",
       });
       setStep(STEP_1);
     } else {

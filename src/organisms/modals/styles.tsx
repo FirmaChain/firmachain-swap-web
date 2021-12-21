@@ -80,3 +80,18 @@ export const NextButton = styled.div<{ active: boolean }>`
   font-family: "Chakra" !important;
   ${(props) => (props.active ? `` : `background-color: #444;color:#777`)}
 `;
+
+export const TitleTypo = styled.div`
+  text-align: center;
+  color: white;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-size: 16px;
+`;
+
+export const SubTypo = styled.div`
+  text-align: center;
+  margin-top: 30px;
+  margin-bottom: 20px;
+  font-size: 22px;
+`;

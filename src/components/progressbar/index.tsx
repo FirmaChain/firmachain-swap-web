@@ -1,6 +1,6 @@
 import React from "react";
 
-import { STEP_1, STEP_2, STEP_3 } from "../../constants/main";
+import { STEP_1, STEP_2, STEP_3, STEP_4 } from "../../constants/main";
 
 import {
   ProgressBarContainer,
@@ -19,6 +19,7 @@ const ProgressBar = ({ currentStep }: any) => {
       <ProgressLineList>
         <ProgressLine active={currentStep >= STEP_2} />
         <ProgressLine active={currentStep >= STEP_3} />
+        <ProgressLine active={currentStep >= STEP_4} />
       </ProgressLineList>
       <ProgressList>
         <ProgressWrapper>
@@ -38,6 +39,12 @@ const ProgressBar = ({ currentStep }: any) => {
             <ProgressCheck active={currentStep > STEP_3} />
           </ProgressCircle>
           <ProgressText>Step 3</ProgressText>
+        </ProgressWrapper>
+        <ProgressWrapper>
+          <ProgressCircle active={currentStep >= STEP_4}>
+            <ProgressCheck active={currentStep > STEP_4} />
+          </ProgressCircle>
+          <ProgressText>Step 4</ProgressText>
         </ProgressWrapper>
       </ProgressList>
     </ProgressBarContainer>

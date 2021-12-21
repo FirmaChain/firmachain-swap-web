@@ -11,6 +11,9 @@ const initialState: IUserState = {
 
 export default createReducer(initialState, {
   [HANDLE_USER_ORDER]: (state: IUserState, { order }) => {
-    state.order = order;
+    state.order = {
+      ...state.order,
+      ...order,
+    };
   },
 });

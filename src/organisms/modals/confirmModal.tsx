@@ -2,9 +2,9 @@ import React from "react";
 
 import { Modal } from "../../components/modal";
 
-import { ModalContainer, ModalContent, NextButton } from "./styles";
+import { ModalContainer, ModalContent, NextButton, TitleTypo, SubTypo } from "./styles";
 
-const ConfirmModal = ({ visible, onClose, confirmAction }: any) => {
+const ConfirmModal = ({ visible, onClose, confirmAction, amount }: any) => {
   return (
     <Modal
       visible={visible}
@@ -16,11 +16,8 @@ const ConfirmModal = ({ visible, onClose, confirmAction }: any) => {
     >
       <ModalContainer>
         <ModalContent>
-          <div
-            style={{ textAlign: "center", color: "white", marginTop: "20px", marginBottom: "20px", fontSize: "16px" }}
-          >
-            Do you want to confirm the registration for the swap?
-          </div>
+          <TitleTypo>Do you want to confirm the registration for the swap?</TitleTypo>
+          <SubTypo>{amount} FCT</SubTypo>
           <NextButton
             active={true}
             onClick={() => {
