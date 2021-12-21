@@ -28,6 +28,7 @@ const NotiAddress = styled.div`
   font-size: 18px;
   text-decoration: underline;
   color: white;
+  cursor: pointer;
 `;
 
 const ResultOrder = () => {
@@ -53,13 +54,13 @@ const ResultOrder = () => {
         </div>
         <NotiCard>
           <NotiTypo>Please send {order.amount} FCT to this address</NotiTypo>
-          <a
+          {/* <a
             href={`https://ropsten.etherscan.io/address/${process.env.REACT_APP_FIRMA_ETH_ADDRESS}#tokentxns`}
             target="_blank"
             rel="noreferrer"
-          >
-            <NotiAddress>{process.env.REACT_APP_FIRMA_ETH_ADDRESS}</NotiAddress>
-          </a>
+          > */}
+          {/* </a> */}
+          <NotiAddress onClick={copy}>{process.env.REACT_APP_FIRMA_ETH_ADDRESS}</NotiAddress>
           <CopyIcon onClick={copy} viewBox="0 0 24 24" width="18px" height="18px" style={{ marginTop: "10px" }}>
             <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm-1 4 6 6v10c0 1.1-.9 2-2 2H7.99C6.89 23 6 22.1 6 21l.01-14c0-1.1.89-2 1.99-2h7zm-1 7h5.5L14 6.5V12z"></path>
           </CopyIcon>

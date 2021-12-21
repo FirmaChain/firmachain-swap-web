@@ -64,7 +64,7 @@ const Row = ({ data, index, style }: any) => {
       </ItemColumn>
       <ItemColumn>{getAmountFormat(currentData.amount)}</ItemColumn>
       <ItemColumn>{getStatusFormat(currentData.status)}</ItemColumn>
-      <ItemColumn>{getTimeFormat(currentData.addedAt)}</ItemColumn>
+      <ItemColumn>{getTimeFormat(currentData.updatedAt)}</ItemColumn>
     </ItemWrapper>
   );
 };
@@ -158,7 +158,7 @@ const Status = () => {
               <HeaderColumn>To</HeaderColumn>
               <HeaderColumn>Amount</HeaderColumn>
               <HeaderColumn>Status</HeaderColumn>
-              <HeaderColumn>Time</HeaderColumn>
+              <HeaderColumn>Update At</HeaderColumn>
             </HeaderWrapper>
             <List
               width={width}

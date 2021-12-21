@@ -128,8 +128,8 @@ export const SwapIcon = styled.div`
 `;
 
 const fadeInout = keyframes`
-  0%,100% { opacity: 0.2; transform:scale(0.9) }
-  50% { opacity: 1;transform:scale(1) }
+  0%,80%,100% { opacity: 0; }
+  20% { opacity: 1; }
 `;
 
 export const ArrowIconFirst = styled.div`
@@ -139,9 +139,8 @@ export const ArrowIconFirst = styled.div`
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
-  opacity: 0.2;
-  transform: scale(0.9);
-  animation: ${fadeInout} 2.3s ease-in-out 0s infinite;
+  opacity: 0;
+  animation: ${fadeInout} 2.8s linear 0s infinite;
 `;
 
 export const ArrowIconSecond = styled.div`
@@ -151,9 +150,8 @@ export const ArrowIconSecond = styled.div`
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
-  opacity: 0.2;
-  transform: scale(0.9);
-  animation: ${fadeInout} 2.3s ease-in-out 0.5s infinite;
+  opacity: 0;
+  animation: ${fadeInout} 2.8s linear 0.5s infinite;
 `;
 
 export const ArrowIconThird = styled.div`
@@ -163,7 +161,6 @@ export const ArrowIconThird = styled.div`
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
-  opacity: 0.2;
-  transform: scale(0.9);
-  animation: ${fadeInout} 2.3s ease-in-out 1s infinite;
+  opacity: 0;
+  animation: ${fadeInout} 2.8s linear 1s infinite;
 `;
