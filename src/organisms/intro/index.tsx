@@ -1,8 +1,8 @@
 import React, { useContext, useState, useEffect } from "react";
-import axios from "axios";
 import Loader from "react-loader-spinner";
 import { useSnackbar } from "notistack";
 
+import API from "../../utils/api";
 import { FirmaUtil } from "@firmachain/firma-js";
 import { MainContext } from "../../pages/main";
 import { userActions } from "../../redux/action";
@@ -32,6 +32,8 @@ const Top = () => {
   const { setStep } = useContext(MainContext);
   const { enqueueSnackbar } = useSnackbar();
 
+  const { getBuildURL } = API();
+
   const [firmaAddress, setFirmaAddress] = useState("");
   const [isLoading, setLoading] = useState(false);
   const [downloadURLData, setDownloadURLData] = useState({ win: "", mac: "", linux: "" });
@@ -46,8 +48,7 @@ const Top = () => {
   };
 
   useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_API_HOST}/stations/release/latest`)
+    getBuildURL()
       .then((res) => {
         setDownloadURLData({
           win: res.data.result.urlList.win,
@@ -58,12 +59,13 @@ const Top = () => {
       .catch((e) => {
         console.log(e);
       });
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const onClickStart = () => {
     if (FirmaUtil.isValidAddress(firmaAddress)) {
       userActions.handleUserOrder({
         orderId: generateOrderId(),
+        txHash: "",
         firmaAddress,
         ethAddress: "",
         amount: "",

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import numeral from "numeral";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeList as List } from "react-window";
 import { useSelector } from "react-redux";
+
+import API from "../../utils/api";
 import Tooltip from "./tooltip";
 
 import {
@@ -71,6 +72,7 @@ const Row = ({ data, index, style }: any) => {
 
 const Status = () => {
   const { order } = useSelector((state: any) => state.user);
+  const { getSwapList, getSwapListByPath } = API();
   const [swapHistoryList, setSwapHistoryList] = useState([]);
   const [searchText, setSearchText] = useState("");
 
@@ -79,8 +81,7 @@ const Status = () => {
       setSearchText(order.orderId);
       search(order.orderId);
     } else {
-      axios
-        .get(`${process.env.REACT_APP_API_HOST}/swaps`)
+      getSwapList()
         .then((res) => {
           setSwapHistoryList(res.data.result.swapList);
         })
@@ -114,14 +115,13 @@ const Status = () => {
   const search = (text: string) => {
     const apiType = getAPIType(text);
 
-    let baseURI = `${process.env.REACT_APP_API_HOST}/swaps`;
+    let path = "";
 
     if (apiType !== "") {
-      baseURI += `/${getAPIType(text)}/${text}`;
+      path = `${getAPIType(text)}/${text}`;
     }
 
-    axios
-      .get(baseURI)
+    getSwapListByPath(path)
       .then((res) => {
         setSwapHistoryList(res.data.result.swapList);
       })

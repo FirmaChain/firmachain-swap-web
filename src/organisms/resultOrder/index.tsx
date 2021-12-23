@@ -1,69 +1,28 @@
 import React, { useContext } from "react";
-import { useSnackbar } from "notistack";
 import { MainContext } from "../../pages/main";
 import { STEP_STATUS } from "../../constants/main";
 import { useSelector } from "react-redux";
 
-import { copyToClipboard } from "../../utils/common";
-import styled from "styled-components";
-
-import { Step, BigLabel, CopyIcon, StatusLink } from "./styles";
-
-const NotiCard = styled.div`
-  width: calc(100% - 40px);
-  padding: 20px;
-  margin-top: 20px;
-  text-align: center;
-  border: 1px solid #47ec9f;
-  border-radius: 4px;
-`;
-
-const NotiTypo = styled.div`
-  font-size: 18px;
-  margin-bottom: 20px;
-  color: #47ec9f;
-`;
-
-const NotiAddress = styled.div`
-  font-size: 18px;
-  text-decoration: underline;
-  color: white;
-  cursor: pointer;
-`;
+import { Step, BigLabel, StatusLink, SubTypo, NotiCard, NotiTypo, NotiAddress } from "./styles";
 
 const ResultOrder = () => {
-  const { enqueueSnackbar } = useSnackbar();
   const { order } = useSelector((state: any) => state.user);
   const { setStep } = useContext(MainContext);
 
-  const copy = () => {
-    copyToClipboard(process.env.REACT_APP_FIRMA_ETH_ADDRESS ? process.env.REACT_APP_FIRMA_ETH_ADDRESS : "");
-
-    enqueueSnackbar("Copied", {
-      variant: "success",
-      autoHideDuration: 1000,
-    });
+  const openScan = () => {
+    window.open(`${process.env.REACT_APP_SCAN_URL}/tx/${order.txHash}`);
   };
-
   return (
     <>
       <Step>
         <BigLabel>Registration</BigLabel>
-        <div style={{ textAlign: "center", color: "white", marginTop: "20px", marginBottom: "20px" }}>
-          Your registration is complete.
-        </div>
+        <SubTypo>Your registration is complete.</SubTypo>
+        <SubTypo>We will proceed after checking your swap request transaction.</SubTypo>
+        <SubTypo>This process takes about 10 to 30 minutes on average.</SubTypo>
+        <SubTypo style={{ marginTop: "15px" }}>Also, We will send you an email about the progress and issue.</SubTypo>
         <NotiCard>
-          <NotiTypo>Please send {order.amount} FCT to this address</NotiTypo>
-          {/* <a
-            href={`https://ropsten.etherscan.io/address/${process.env.REACT_APP_FIRMA_ETH_ADDRESS}#tokentxns`}
-            target="_blank"
-            rel="noreferrer"
-          > */}
-          {/* </a> */}
-          <NotiAddress onClick={copy}>{process.env.REACT_APP_FIRMA_ETH_ADDRESS}</NotiAddress>
-          <CopyIcon onClick={copy} viewBox="0 0 24 24" width="18px" height="18px" style={{ marginTop: "10px" }}>
-            <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm-1 4 6 6v10c0 1.1-.9 2-2 2H7.99C6.89 23 6 22.1 6 21l.01-14c0-1.1.89-2 1.99-2h7zm-1 7h5.5L14 6.5V12z"></path>
-          </CopyIcon>
+          <NotiTypo>Your transaction hash URL</NotiTypo>
+          <NotiAddress onClick={openScan}>{order.txHash}</NotiAddress>
         </NotiCard>
       </Step>
       <StatusLink onClick={() => setStep(STEP_STATUS)}>SWAP STATUS</StatusLink>

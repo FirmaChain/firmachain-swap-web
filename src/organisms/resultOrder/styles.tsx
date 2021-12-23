@@ -18,7 +18,7 @@ export const CopyIcon = styled.svg`
 export const BigLabel = styled.div`
   width: 100%;
   font-size: 24px;
-  margin-bottom: 5px;
+  margin-bottom: 25px;
   color: #eee;
 `;
 
@@ -54,11 +54,40 @@ export const InputTypo = styled.div`
   color: #eee;
   margin-bottom: 2px;
 `;
+
 export const StatusLink = styled.div`
   font-size: 14px;
   color: #bbb;
   margin-top: 20px;
   text-align: center;
   text-decoration: underline;
+  cursor: pointer;
+`;
+
+export const SubTypo = styled.div`
+  text-align: center;
+  line-height: 25px;
+  color: white;
+`;
+
+export const NotiCard = styled.div`
+  width: calc(100% - 40px);
+  padding: 20px;
+  margin-top: 20px;
+  text-align: center;
+  border: 1px solid #47ec9f;
+  border-radius: 4px;
+`;
+
+export const NotiTypo = styled.div`
+  font-size: 18px;
+  margin-bottom: 20px;
+  color: #47ec9f;
+`;
+
+export const NotiAddress = styled.div`
+  font-size: 14px;
+  text-decoration: underline;
+  color: white;
   cursor: pointer;
 `;

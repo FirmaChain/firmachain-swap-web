@@ -1,7 +1,7 @@
 import React, { useState, useContext, useCallback, useRef, useEffect } from "react";
-import axios from "axios";
 import { useSnackbar } from "notistack";
 
+import API from "../../utils/api";
 import { userActions } from "../../redux/action";
 import { MainContext } from "../../pages/main";
 import { STEP_3 } from "../../constants/main";
@@ -38,6 +38,8 @@ const useCounter = (initialValue: number, ms: number) => {
 
 const Step2 = ({ setLoading }: any) => {
   const { setStep } = useContext(MainContext);
+
+  const { getIsVerified, sendVerificationMail } = API();
   const { enqueueSnackbar } = useSnackbar();
   const [inputEmail, setInputEmail] = useState("");
   const [inputAuthCode, setInputAuthCode] = useState("");
@@ -72,12 +74,7 @@ const Step2 = ({ setLoading }: any) => {
 
   const isVerified = async () => {
     try {
-      const result = await axios.put(
-        `${process.env.REACT_APP_API_HOST}/swaps/email`,
-        { email: inputEmail, authCode: inputAuthCode },
-        { headers: { "Content-Type": `application/json` } }
-      );
-
+      const result = await getIsVerified(inputEmail, inputAuthCode);
       return result.data.result;
     } catch (e) {
       return false;
@@ -92,6 +89,7 @@ const Step2 = ({ setLoading }: any) => {
             userActions.handleUserOrder({
               emailAddress: inputEmail,
             });
+            reset();
             setStep(STEP_3);
           } else {
             enqueueSnackbar("Invalid Authentication Code", {
@@ -115,11 +113,7 @@ const Step2 = ({ setLoading }: any) => {
   };
 
   const sendEmail = async () => {
-    await axios.post(
-      `${process.env.REACT_APP_API_HOST}/swaps/email`,
-      { email: inputEmail },
-      { headers: { "Content-Type": `application/json` } }
-    );
+    await sendVerificationMail(inputEmail);
   };
 
   const onClickSend = () => {

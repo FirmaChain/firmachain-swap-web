@@ -175,3 +175,23 @@ export const CheckBoxRound = styled.div`
   background-repeat: no-repeat;
   background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAA7EAAAOxAGVKw4bAAABn0lEQVRYhb3WIWhVURzH8cOQMcZYEDEMMRgMQ4xLJhkmMYjIgmkYDQtjiNjMCwYxyTCJyWQUWTAZjAumYXhhGAzyGI/xWbj36ZX5zv/w9s795XP+3+//3PPn3JR6ClZwB0t9MbvwKzjS5BDrfcLn8Nm/OcEu5vsQ2DY572vDb2CYERjMVYTPp5TeppQWMste1+InvMh0Dt+q3QGsYZSBH+NmLfgCDoLun1eBtwK7AfwrLtSC39LM+KQMsVoLvoTvQffbVeCtwKsA/gV1xh7rwdH/xvVa8GXNA5PLk5JCi9jT3NLi1wpvAvin8Og1F2i/s2mIewXwuwH8F66WdL7/n83HuJ/ZdxGDQGAzaiLhXabACA+n2AcfEfITfgSFzkjgQbDnJ1ZielNsU36ExhIb7frL/v5eTcpGEbwjsRUU/COBD8G66f5y5H+dxolOaoBLUwm0Ek8LJHIJR7dE4tmU8L1zw88hcYjlmQm0EqWf4wS3ZwrvSOwUCLysAu9I5KbjAItVBVqJLWdHcIS16vCOxGPNAzXOTm/wjsQ1PJpl56fdzGyIIst1RwAAAABJRU5ErkJggg==");
 `;
+
+export const MetamaskWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+export const MetamaskTypo = styled.div`
+  color: white;
+`;
+
+export const MetamaskIcon = styled.div`
+  width: 100px;
+  height: 100px;
+  margin: 20px 0 10px 0;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url("${process.env.PUBLIC_URL + `/images/metamask.png`}");
+`;
