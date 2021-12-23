@@ -177,11 +177,13 @@ const Step2 = ({ setLoading }: any) => {
           </InputWrapper>
         )}
       </Card>
+      {isSent && (
+        <NextButton active={isActiveNext} onClick={onClickNext}>
+          NEXT
+        </NextButton>
+      )}
       <NextButton active={isActiveSend} onClick={onClickSend}>
         {isActiveSend ? `Send Code` : `Retry...${countDownText}`}
-      </NextButton>
-      <NextButton active={isActiveNext} onClick={onClickNext}>
-        NEXT
       </NextButton>
     </Step>
   );
