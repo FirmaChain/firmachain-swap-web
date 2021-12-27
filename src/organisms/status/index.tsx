@@ -4,7 +4,6 @@ import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeList as List } from "react-window";
 import { useSelector } from "react-redux";
 
-import API from "../../utils/api";
 import Tooltip from "./tooltip";
 
 import {
@@ -33,8 +32,9 @@ const Row = ({ data, index, style }: any) => {
 
   const getStatusFormat = (status: number) => {
     switch (status) {
+      case -1:
       case 0:
-        return <StatusTypo color={""}>Register</StatusTypo>;
+        return <StatusTypo color={""}>Registered</StatusTypo>;
       case 1:
       case 2:
         return <StatusTypo color={"#3550DE"}>Processing</StatusTypo>;
@@ -70,9 +70,8 @@ const Row = ({ data, index, style }: any) => {
   );
 };
 
-const Status = () => {
+const Status = ({ api }: any) => {
   const { order } = useSelector((state: any) => state.user);
-  const { getSwapList, getSwapListByPath } = API();
   const [swapHistoryList, setSwapHistoryList] = useState([]);
   const [searchText, setSearchText] = useState("");
 
@@ -81,11 +80,12 @@ const Status = () => {
       setSearchText(order.orderId);
       search(order.orderId);
     } else {
-      getSwapList()
-        .then((res) => {
+      api
+        .getSwapList()
+        .then((res: any) => {
           setSwapHistoryList(res.data.result.swapList);
         })
-        .catch((e) => {
+        .catch((e: any) => {
           console.log(e);
         });
     }
@@ -121,11 +121,12 @@ const Status = () => {
       path = `${getAPIType(text)}/${text}`;
     }
 
-    getSwapListByPath(path)
-      .then((res) => {
+    api
+      .getSwapListByPath(path)
+      .then((res: any) => {
         setSwapHistoryList(res.data.result.swapList);
       })
-      .catch((e) => {
+      .catch((e: any) => {
         console.log(e);
       });
   };

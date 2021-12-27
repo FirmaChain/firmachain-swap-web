@@ -1,72 +1,121 @@
+import { useState } from "react";
 import axios from "axios";
 
+axios.defaults.withCredentials = true;
+
 const API = () => {
+  const [token, setToken] = useState("");
+
   const insertOrder = async (
+    tokenData: string,
     orderId: string,
     ethAddress: string,
     firmaAddress: string,
     amount: number,
+    ethTxHash: string,
     email: string
   ) => {
-    return await axios.post(
+    checkValidateToken();
+
+    const result = await axios.post(
       `${process.env.REACT_APP_API_HOST}/swaps`,
       {
+        tokenData: "AA",
         orderId,
         ethAddress,
         firmaAddress,
-        ethTxHash: "",
+        ethTxHash,
         amount,
         email,
       },
-      { headers: { "Content-Type": `application/json` } }
+      { headers: { "Content-Type": `application/json`, authorization: `Bearer ${token}` } }
     );
-  };
 
-  const updateOrderHash = async (orderId: string, ethTxHash: string) => {
-    return await axios.put(
-      `${process.env.REACT_APP_API_HOST}/swaps/${orderId}`,
-      { ethTxHash },
-      { headers: { "Content-Type": `application/json` } }
-    );
+    setToken(result.headers.ft);
+
+    return result;
   };
 
   const sendRegistrationMail = async (orderId: string) => {
-    return await axios.post(`${process.env.REACT_APP_API_HOST}/swaps/email/${orderId}`, {
-      headers: { "Content-Type": `application/json` },
+    checkValidateToken();
+
+    const result = await axios.post(`${process.env.REACT_APP_API_HOST}/swaps/email/${orderId}`, {
+      headers: { "Content-Type": `application/json`, authorization: `Bearer ${token}` },
     });
+
+    setToken(result.headers.ft);
+
+    return result;
   };
 
   const sendVerificationMail = async (email: string) => {
-    return await axios.post(
+    checkValidateToken();
+
+    const result = await axios.post(
       `${process.env.REACT_APP_API_HOST}/swaps/email`,
       { email },
-      { headers: { "Content-Type": `application/json` } }
+      { headers: { "Content-Type": `application/json`, authorization: `Bearer ${token}` } }
     );
+
+    setToken(result.headers.ft);
+
+    return result;
   };
 
   const getBuildURL = async () => {
-    return await axios.get(`${process.env.REACT_APP_API_HOST}/stations/release/latest`);
+    const result = await axios.get(`${process.env.REACT_APP_API_HOST}/stations/release/latest`);
+
+    setToken(result.headers.ft);
+
+    return result;
   };
 
   const getSwapList = async () => {
-    return await axios.get(`${process.env.REACT_APP_API_HOST}/swaps`);
+    checkValidateToken();
+
+    const result = await axios.get(`${process.env.REACT_APP_API_HOST}/swaps`, {
+      headers: { "Content-Type": `application/json`, authorization: `Bearer ${token}` },
+    });
+
+    setToken(result.headers.ft);
+
+    return result;
   };
 
   const getSwapListByPath = async (path: string) => {
-    return await axios.get(`${process.env.REACT_APP_API_HOST}/swaps/${path}`);
+    checkValidateToken();
+
+    const result = await axios.get(`${process.env.REACT_APP_API_HOST}/swaps/${path}`, {
+      headers: { "Content-Type": `application/json`, authorization: `Bearer ${token}` },
+    });
+
+    setToken(result.headers.ft);
+
+    return result;
   };
 
   const getIsVerified = async (email: string, authCode: string) => {
-    return await axios.put(
+    checkValidateToken();
+
+    const result = await axios.put(
       `${process.env.REACT_APP_API_HOST}/swaps/email`,
       { email, authCode },
-      { headers: { "Content-Type": `application/json` } }
+      { headers: { "Content-Type": `application/json`, authorization: `Bearer ${token}` } }
     );
+
+    setToken(result.headers.ft);
+
+    return result;
+  };
+
+  const checkValidateToken = () => {
+    if (token === "" || token === undefined) {
+      window.location.reload();
+    }
   };
 
   return {
     insertOrder,
-    updateOrderHash,
     getIsVerified,
     sendRegistrationMail,
     sendVerificationMail,

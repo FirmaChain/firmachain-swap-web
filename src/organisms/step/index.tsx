@@ -14,7 +14,7 @@ import Step1 from "./step1";
 import Step2 from "./step2";
 import Step3 from "./step3";
 
-const Main = () => {
+const Step = ({ api }: any) => {
   const { currentStep } = useContext(MainContext);
 
   const [isLoading, setLoading] = useState(false);
@@ -28,12 +28,12 @@ const Main = () => {
         <Progressbar currentStep={currentStep} />
         <StepList>
           {currentStep === STEP_1 && <Step1 />}
-          {currentStep === STEP_2 && <Step2 setLoading={setLoading} />}
-          {currentStep === STEP_3 && <Step3 setLoading={setLoading} />}
+          {currentStep === STEP_2 && <Step2 setLoading={setLoading} api={api} />}
+          {currentStep === STEP_3 && <Step3 setLoading={setLoading} api={api} />}
         </StepList>
       </StepWrapper>
     </>
   );
 };
 
-export default React.memo(Main);
+export default React.memo(Step);

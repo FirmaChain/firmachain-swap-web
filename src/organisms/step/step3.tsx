@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 import { useSnackbar } from "notistack";
 
 import Metamask from "../../utils/metamask";
-import API from "../../utils/api";
 import { userActions } from "../../redux/action";
 import { MainContext } from "../../pages/main";
 import { STEP_RESULT } from "../../constants/main";
@@ -22,8 +21,8 @@ import {
 
 declare let window: any;
 
-const Step3 = ({ setLoading }: any) => {
-  const { firmaAddress, orderId, emailAddress } = useSelector((state: any) => state.user.order);
+const Step3 = ({ setLoading, api }: any) => {
+  const { firmaAddress, orderId, emailAddress, tokenData } = useSelector((state: any) => state.user.order);
   const { setStep } = useContext(MainContext);
   const { enqueueSnackbar } = useSnackbar();
 
@@ -34,7 +33,6 @@ const Step3 = ({ setLoading }: any) => {
   const [isActiveSwap, setActiveSwap] = useState(false);
 
   const { installed, connect, getChainId, getEthAddress, transferForSwap, balanceOfFCT } = Metamask();
-  const { insertOrder, updateOrderHash, sendRegistrationMail } = API();
 
   useEffect(() => {
     setActiveSwap(Number(inputAmount) > 0);
@@ -45,25 +43,34 @@ const Step3 = ({ setLoading }: any) => {
       setLoading(true);
 
       try {
-        await insertOrder(orderId, inputEthAddress, firmaAddress, Number(inputAmount), emailAddress);
-
         const ethTxHash = await transferForSwap(inputAmount);
 
-        await updateOrderHash(orderId, ethTxHash);
-        await sendRegistrationMail(orderId);
+        api
+          .insertOrder(tokenData, orderId, inputEthAddress, firmaAddress, Number(inputAmount), ethTxHash, emailAddress)
+          .then(() => {
+            userActions.handleUserOrder({
+              ethAddress: inputEthAddress,
+              amount: inputAmount,
+              txHash: ethTxHash,
+            });
 
-        userActions.handleUserOrder({
-          ethAddress: inputEthAddress,
-          amount: inputAmount,
-          txHash: ethTxHash,
-        });
+            enqueueSnackbar("Registration successful", {
+              variant: "success",
+              autoHideDuration: 1500,
+            });
 
-        enqueueSnackbar("Registration successful", {
-          variant: "success",
-          autoHideDuration: 1500,
-        });
+            setStep(STEP_RESULT);
+          })
+          .catch(() => {
+            enqueueSnackbar("Invalid Request", {
+              variant: "error",
+              autoHideDuration: 3000,
+            });
 
-        setStep(STEP_RESULT);
+            setTimeout(() => {
+              window.location.reload();
+            }, 3000);
+          });
       } catch (e) {
         setLoading(false);
         enqueueSnackbar("Failed registration", {

@@ -1,7 +1,6 @@
 import React, { useState, useContext, useCallback, useRef, useEffect } from "react";
 import { useSnackbar } from "notistack";
 
-import API from "../../utils/api";
 import { userActions } from "../../redux/action";
 import { MainContext } from "../../pages/main";
 import { STEP_3 } from "../../constants/main";
@@ -36,10 +35,9 @@ const useCounter = (initialValue: number, ms: number) => {
   return { count, start, stop, reset };
 };
 
-const Step2 = ({ setLoading }: any) => {
+const Step2 = ({ setLoading, api }: any) => {
   const { setStep } = useContext(MainContext);
 
-  const { getIsVerified, sendVerificationMail } = API();
   const { enqueueSnackbar } = useSnackbar();
   const [inputEmail, setInputEmail] = useState("");
   const [inputAuthCode, setInputAuthCode] = useState("");
@@ -74,7 +72,7 @@ const Step2 = ({ setLoading }: any) => {
 
   const isVerified = async () => {
     try {
-      const result = await getIsVerified(inputEmail, inputAuthCode);
+      const result = await api.getIsVerified(inputEmail, inputAuthCode);
       return result.data.result;
     } catch (e) {
       return false;
@@ -84,10 +82,11 @@ const Step2 = ({ setLoading }: any) => {
   const onClickNext = () => {
     if (isSent && inputAuthCode.length > 0) {
       isVerified()
-        .then((isverified) => {
-          if (isverified) {
+        .then((tokenData) => {
+          if (tokenData) {
             userActions.handleUserOrder({
               emailAddress: inputEmail,
+              tokenData: tokenData,
             });
             reset();
             setStep(STEP_3);
@@ -113,7 +112,7 @@ const Step2 = ({ setLoading }: any) => {
   };
 
   const sendEmail = async () => {
-    await sendVerificationMail(inputEmail);
+    await api.sendVerificationMail(inputEmail);
   };
 
   const onClickSend = () => {

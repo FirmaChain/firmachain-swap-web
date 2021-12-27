@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 
+import API from "../utils/api";
 import Header from "../organisms/header";
 import Top from "../organisms/top";
 import Intro from "../organisms/intro";
@@ -24,16 +25,17 @@ export const MainContext = React.createContext<IMainState>({
 
 const Main = () => {
   const [currentStep, setStep] = useState(STEP_INTRO);
+  const api = API();
 
   return (
     <MainContext.Provider value={{ setStep, currentStep }}>
       <MainContainer>
         <Header />
         <Top />
-        {currentStep === STEP_INTRO && <Intro />}
-        {currentStep === STEP_STATUS && <Status />}
+        {currentStep === STEP_INTRO && <Intro api={api} />}
+        {currentStep === STEP_STATUS && <Status api={api} />}
         {currentStep === STEP_RESULT && <ResultOrder />}
-        {currentStep > STEP_INTRO && <Step />}
+        {currentStep > STEP_INTRO && <Step api={api} />}
         <Footer />
       </MainContainer>
     </MainContext.Provider>

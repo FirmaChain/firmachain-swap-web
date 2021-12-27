@@ -2,7 +2,6 @@ import React, { useContext, useState, useEffect } from "react";
 import Loader from "react-loader-spinner";
 import { useSnackbar } from "notistack";
 
-import API from "../../utils/api";
 import { FirmaUtil } from "@firmachain/firma-js";
 import { MainContext } from "../../pages/main";
 import { userActions } from "../../redux/action";
@@ -28,11 +27,9 @@ import {
   LedgerIconImg,
 } from "./styles";
 
-const Top = () => {
+const Intro = ({ api }: any) => {
   const { setStep } = useContext(MainContext);
   const { enqueueSnackbar } = useSnackbar();
-
-  const { getBuildURL } = API();
 
   const [firmaAddress, setFirmaAddress] = useState("");
   const [isLoading, setLoading] = useState(false);
@@ -48,15 +45,16 @@ const Top = () => {
   };
 
   useEffect(() => {
-    getBuildURL()
-      .then((res) => {
+    api
+      .getBuildURL()
+      .then((res: any) => {
         setDownloadURLData({
           win: res.data.result.urlList.win,
           mac: res.data.result.urlList.mac,
           linux: res.data.result.urlList.linux,
         });
       })
-      .catch((e) => {
+      .catch((e: any) => {
         console.log(e);
       });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -157,4 +155,4 @@ const Top = () => {
   );
 };
 
-export default React.memo(Top);
+export default React.memo(Intro);
