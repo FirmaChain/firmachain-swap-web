@@ -20,7 +20,7 @@ const API = () => {
     const result = await axios.post(
       `${process.env.REACT_APP_API_HOST}/swaps`,
       {
-        tokenData: "AA",
+        tokenData,
         orderId,
         ethAddress,
         firmaAddress,
