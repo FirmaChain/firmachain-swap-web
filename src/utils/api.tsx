@@ -48,12 +48,12 @@ const API = () => {
     return result;
   };
 
-  const sendVerificationMail = async (email: string) => {
+  const sendVerificationMail = async (email: string, firmaAddress: string) => {
     checkValidateToken();
 
     const result = await axios.post(
       `${process.env.REACT_APP_API_HOST}/swaps/email`,
-      { email },
+      { email, firmaAddress },
       { headers: { "Content-Type": `application/json`, authorization: `Bearer ${token}` } }
     );
 
@@ -94,12 +94,12 @@ const API = () => {
     return result;
   };
 
-  const getIsVerified = async (email: string, authCode: string) => {
+  const getIsVerified = async (email: string, authCode: string, firmaAddress: string) => {
     checkValidateToken();
 
     const result = await axios.put(
       `${process.env.REACT_APP_API_HOST}/swaps/email`,
-      { email, authCode },
+      { email, authCode, firmaAddress },
       { headers: { "Content-Type": `application/json`, authorization: `Bearer ${token}` } }
     );
 

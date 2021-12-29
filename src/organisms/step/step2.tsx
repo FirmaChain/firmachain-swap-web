@@ -1,5 +1,6 @@
 import React, { useState, useContext, useCallback, useRef, useEffect } from "react";
 import { useSnackbar } from "notistack";
+import { useSelector } from "react-redux";
 
 import { userActions } from "../../redux/action";
 import { MainContext } from "../../pages/main";
@@ -37,6 +38,7 @@ const useCounter = (initialValue: number, ms: number) => {
 
 const Step2 = ({ setLoading, api }: any) => {
   const { setStep } = useContext(MainContext);
+  const { firmaAddress } = useSelector((state: any) => state.user.order);
 
   const { enqueueSnackbar } = useSnackbar();
   const [inputEmail, setInputEmail] = useState("");
@@ -72,7 +74,7 @@ const Step2 = ({ setLoading, api }: any) => {
 
   const isVerified = async () => {
     try {
-      const result = await api.getIsVerified(inputEmail, inputAuthCode);
+      const result = await api.getIsVerified(inputEmail, inputAuthCode, firmaAddress);
       return result.data.result;
     } catch (e) {
       return false;
@@ -112,7 +114,9 @@ const Step2 = ({ setLoading, api }: any) => {
   };
 
   const sendEmail = async () => {
-    await api.sendVerificationMail(inputEmail);
+    const result = await api.sendVerificationMail(inputEmail, firmaAddress);
+
+    return result.data.result;
   };
 
   const onClickSend = () => {
@@ -120,33 +124,41 @@ const Step2 = ({ setLoading, api }: any) => {
       if (isValidEmail(inputEmail)) {
         setLoading(true);
         sendEmail()
-          .then(() => {
+          .then((success) => {
             setLoading(false);
-            setActiveSend(false);
-            setSent(true);
-            start();
-            enqueueSnackbar("Email has been sent", {
-              variant: "success",
-              autoHideDuration: 1000,
-            });
+
+            if (success) {
+              setActiveSend(false);
+              setSent(true);
+              start();
+              enqueueSnackbar("Email has been sent", {
+                variant: "success",
+                autoHideDuration: 1500,
+              });
+            } else {
+              enqueueSnackbar("Failed send email.", {
+                variant: "error",
+                autoHideDuration: 1500,
+              });
+            }
           })
           .catch(() => {
             setLoading(false);
             enqueueSnackbar("Failed send email. Please try again.", {
               variant: "error",
-              autoHideDuration: 1000,
+              autoHideDuration: 1500,
             });
           });
       } else {
         enqueueSnackbar("Invalid your email", {
           variant: "error",
-          autoHideDuration: 1000,
+          autoHideDuration: 1500,
         });
       }
     } else {
       enqueueSnackbar("You can send it once a minute.", {
         variant: "error",
-        autoHideDuration: 1000,
+        autoHideDuration: 1500,
       });
     }
   };
