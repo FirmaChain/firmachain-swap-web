@@ -1,5 +1,4 @@
 import Web3 from "web3";
-import detectEthereumProvider from "@metamask/detect-provider";
 
 import { MIN_ABI } from "../config";
 
@@ -12,17 +11,6 @@ const Metamask = () => {
   const installed = () => {
     if (typeof window.ethereum !== "undefined") return true;
     else return false;
-  };
-
-  const init = async () => {
-    try {
-      const provider = await detectEthereumProvider();
-
-      if (provider) return true;
-      else return false;
-    } catch (e) {
-      return false;
-    }
   };
 
   const connect = async (onChangeMetamask: any) => {
@@ -100,7 +88,6 @@ const Metamask = () => {
   };
 
   return {
-    init,
     installed,
     connect,
     getEthAddress,

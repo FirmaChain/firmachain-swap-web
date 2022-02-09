@@ -1,14 +1,12 @@
 import { createReducer } from "@reduxjs/toolkit";
-import { HANDLE_USER_ORDER, HANDLE_METAMASK } from "../types";
+import { HANDLE_USER_ORDER } from "../types";
 
 export interface IUserState {
   order: any;
-  initMetamask: boolean;
 }
 
 const initialState: IUserState = {
   order: {},
-  initMetamask: false,
 };
 
 export default createReducer(initialState, {
@@ -17,8 +15,5 @@ export default createReducer(initialState, {
       ...state.order,
       ...order,
     };
-  },
-  [HANDLE_METAMASK]: (state: IUserState, { initMetamask }) => {
-    state.initMetamask = initMetamask;
   },
 });

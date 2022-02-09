@@ -62,7 +62,6 @@ const Intro = ({ api }: any) => {
 
   const onClickStart = () => {
     if (FirmaUtil.isValidAddress(firmaAddress)) {
-      userActions.handleMetamask(false);
       userActions.handleUserOrder({
         orderId: generateOrderId(),
         txHash: "",
