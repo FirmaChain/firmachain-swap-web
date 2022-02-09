@@ -12,14 +12,16 @@ const ResultOrder = () => {
   const openScan = () => {
     window.open(`${process.env.REACT_APP_SCAN_URL}/tx/${order.txHash}`);
   };
+
   return (
     <>
       <Step>
         <BigLabel>Registration</BigLabel>
         <SubTypo>Your registration is complete.</SubTypo>
         <SubTypo>We will proceed after checking your swap request transaction.</SubTypo>
-        <SubTypo>This process takes about 10 to 30 minutes on average.</SubTypo>
-        <SubTypo style={{ marginTop: "15px" }}>Also, We will send you an email about the progress and issue.</SubTypo>
+        <SubTypo>Confirming your token swap registration can take up to 10 minutes.</SubTypo>
+        <SubTypo>The actual token swap process can take some time. (Max. 2 days)</SubTypo>
+        <SubTypo style={{ marginTop: "15px" }}>Also, we will send token swap progress updates to your e-mail.</SubTypo>
         <NotiCard>
           <NotiTypo>Your transaction hash URL</NotiTypo>
           <NotiAddress onClick={openScan}>{order.txHash}</NotiAddress>
