@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import Metamask from "../utils/metamask";
 
 import API from "../utils/api";
 import Header from "../organisms/header";
@@ -12,6 +14,7 @@ import ResultOrder from "../organisms/resultOrder";
 import { STEP_INTRO, STEP_STATUS, STEP_RESULT } from "../constants/main";
 
 import { MainContainer } from "./styles";
+import { userActions } from "../redux/action";
 
 interface IMainState {
   setStep: (value: number) => void;
@@ -25,7 +28,18 @@ export const MainContext = React.createContext<IMainState>({
 
 const Main = () => {
   const [currentStep, setStep] = useState(STEP_INTRO);
+  const initMetamask = useSelector((state: any) => state.user.initMetamask);
   const api = API();
+
+  const { init } = Metamask();
+
+  useEffect(() => {
+    if (initMetamask === false) {
+      init();
+      userActions.handleMetamask(true);
+      window.location.reload();
+    }
+  }, []);
 
   return (
     <MainContext.Provider value={{ setStep, currentStep }}>

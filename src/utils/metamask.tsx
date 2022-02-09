@@ -17,6 +17,7 @@ const Metamask = () => {
   const init = async () => {
     try {
       const provider = await detectEthereumProvider();
+
       if (provider) return true;
       else return false;
     } catch (e) {

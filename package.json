@@ -46,7 +46,7 @@
   },
   "scripts": {
     "dev": "react-app-env --env-file=.env.dev start",
-    "colosseum": "react-app-env --env-file=.env.colosseum start"
+    "mainnet": "react-app-env --env-file=.env.mainnet start"
   },
   "eslintConfig": {
     "extends": [
