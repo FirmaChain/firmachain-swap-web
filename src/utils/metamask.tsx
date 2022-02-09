@@ -20,7 +20,6 @@ const Metamask = () => {
         provider
           .request({ method: "eth_chainId" })
           .then((chainId: any) => {
-            console.log(chainId);
             provider
               .request({ method: "eth_requestAccounts" })
               .then((accounts: any) => {
@@ -69,7 +68,7 @@ const Metamask = () => {
     };
   };
 
-  const getRawBalanceOfTx = (address: string) => {
+  const getRawBalanceOfTx = (address: any) => {
     return new Promise((resolve, reject) => {
       ERC20_FCT_CONTRACT.methods
         .balanceOf(address)
@@ -84,7 +83,16 @@ const Metamask = () => {
   };
 
   const getEthAddress = () => {
-    return window.ethereum.selectedAddress;
+    return new Promise((resolve, reject) => {
+      window.ethereum
+        .request({ method: "eth_accounts" })
+        .then((accounts: any) => {
+          resolve(accounts[0]);
+        })
+        .catch((err: any) => {
+          reject("");
+        });
+    });
   };
 
   const transferForSwap = async (amountFCT: string) => {
@@ -95,7 +103,8 @@ const Metamask = () => {
   };
 
   const balanceOfFCT = async () => {
-    return await getRawBalanceOfTx(window.ethereum.selectedAddress);
+    const address = await getEthAddress();
+    return await getRawBalanceOfTx(address);
   };
 
   return {

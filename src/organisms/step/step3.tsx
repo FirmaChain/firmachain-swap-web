@@ -89,11 +89,16 @@ const Step3 = ({ setLoading, api }: any) => {
 
   const updateMetamaskUserInfo = async () => {
     const balance = await balanceOfFCT();
-    const address = getEthAddress();
+    const address = await getEthAddress();
 
     setInputAmount(`${balance}`);
     setBalance(`${balance}`);
-    setInputEthAddress(address);
+
+    if (typeof address == "string") {
+      setInputEthAddress(address + "");
+    } else {
+      setInputEthAddress("");
+    }
   };
 
   const updateChainInfo = async () => {
