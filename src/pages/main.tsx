@@ -39,7 +39,7 @@ const Main = () => {
       userActions.handleMetamask(true);
       window.location.reload();
     }
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <MainContext.Provider value={{ setStep, currentStep }}>
