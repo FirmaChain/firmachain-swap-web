@@ -1,4 +1,5 @@
 import Web3 from "web3";
+import detectEthereumProvider from "@metamask/detect-provider";
 
 import { MIN_ABI } from "../config";
 
@@ -15,16 +16,18 @@ const Metamask = () => {
 
   const connect = async (onChangeMetamask: any) => {
     return new Promise((resolve, reject) => {
-      window.ethereum
-        .request({ method: "eth_requestAccounts" })
-        .then((accounts: any) => {
-          if (accounts.length === 0) reject();
+      detectEthereumProvider().then((provider: any) => {
+        provider
+          .request({ method: "eth_requestAccounts" })
+          .then((accounts: any) => {
+            if (accounts.length === 0) reject();
 
-          resolve(true);
-        })
-        .catch((err: any) => {
-          reject(err);
-        });
+            resolve(true);
+          })
+          .catch((err: any) => {
+            reject(err);
+          });
+      });
 
       window.ethereum.on("accountsChanged", () => {
         onChangeMetamask();
