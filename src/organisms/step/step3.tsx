@@ -32,8 +32,20 @@ const Step3 = ({ setLoading, api }: any) => {
   const [isConnected, setConnect] = useState(false);
   const [isActiveSwap, setActiveSwap] = useState(false);
 
-  const { installed, connect, getChainId, getEthAddress, transferForSwap, balanceOfFCT } = Metamask();
+  const { init, installed, connect, getChainId, getEthAddress, transferForSwap, balanceOfFCT } = Metamask();
 
+  useEffect(() => {
+    init()
+      .then((isInit) => {
+        console.log("CONNECTED" + isInit);
+      })
+      .catch((e) => {
+        enqueueSnackbar("Please check Metamask", {
+          variant: "error",
+          autoHideDuration: 2000,
+        });
+      });
+  }, []);
   useEffect(() => {
     setActiveSwap(Number(inputAmount) > 0);
   }, [inputAmount]);

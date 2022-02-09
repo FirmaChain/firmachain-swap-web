@@ -14,20 +14,28 @@ const Metamask = () => {
     else return false;
   };
 
+  const init = async () => {
+    try {
+      const provider = await detectEthereumProvider();
+      if (provider) return true;
+      else return false;
+    } catch (e) {
+      return false;
+    }
+  };
+
   const connect = async (onChangeMetamask: any) => {
     return new Promise((resolve, reject) => {
-      detectEthereumProvider().then((provider: any) => {
-        provider
-          .request({ method: "eth_requestAccounts" })
-          .then((accounts: any) => {
-            if (accounts.length === 0) reject();
+      window.ethereum
+        .request({ method: "eth_requestAccounts" })
+        .then((accounts: any) => {
+          if (accounts.length === 0) reject();
 
-            resolve(true);
-          })
-          .catch((err: any) => {
-            reject(err);
-          });
-      });
+          resolve(true);
+        })
+        .catch((err: any) => {
+          reject(err);
+        });
 
       window.ethereum.on("accountsChanged", () => {
         onChangeMetamask();
@@ -91,6 +99,7 @@ const Metamask = () => {
   };
 
   return {
+    init,
     installed,
     connect,
     getEthAddress,
