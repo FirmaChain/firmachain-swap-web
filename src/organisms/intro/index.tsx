@@ -33,7 +33,7 @@ const Intro = ({ api }: any) => {
 
   const [firmaAddress, setFirmaAddress] = useState("");
   const [isLoading, setLoading] = useState(false);
-  const [downloadURLData, setDownloadURLData] = useState({ win: "", mac: "", linux: "" });
+  const [downloadURLData, setDownloadURLData] = useState({ win: "", mac: "", macm1: "", linux: "" });
 
   const generateOrderId = () => {
     return (
@@ -51,6 +51,7 @@ const Intro = ({ api }: any) => {
         setDownloadURLData({
           win: res.data.result.urlList.win,
           mac: res.data.result.urlList.mac,
+          macm1: res.data.result.urlList.macm1,
           linux: res.data.result.urlList.linux,
         });
       })
@@ -89,6 +90,10 @@ const Intro = ({ api }: any) => {
 
   const downloadMac = () => {
     window.open(downloadURLData.mac);
+  };
+
+  const downloadMacM1 = () => {
+    window.open(downloadURLData.macm1);
   };
 
   const downloadLinux = () => {
@@ -147,6 +152,7 @@ const Intro = ({ api }: any) => {
         <DownloadWrapper>
           <DownloadItem src={process.env.PUBLIC_URL + "/images/icon_win.png"} onClick={downloadWin}></DownloadItem>
           <DownloadItem src={process.env.PUBLIC_URL + "/images/icon_mac.png"} onClick={downloadMac}></DownloadItem>
+          <DownloadItem src={process.env.PUBLIC_URL + "/images/icon_mac.png"} onClick={downloadMacM1}></DownloadItem>
           <DownloadItem src={process.env.PUBLIC_URL + "/images/icon_linux.png"} onClick={downloadLinux}></DownloadItem>
           <DownloadItem src={process.env.PUBLIC_URL + "/images/icon_web.png"} onClick={linktoWeb}></DownloadItem>
         </DownloadWrapper>
