@@ -6,7 +6,7 @@ const Top = () => {
   return (
     <TopContainer>
       <MainTypo>FirmaChain Token Swap</MainTypo>
-      <SubTypo>ERC20 Ropsten ▶ FirmaChain Colosseum Testnet</SubTypo>
+      <SubTypo>ERC20 mainnet ▶ FirmaChain Colosseum mainnet</SubTypo>
     </TopContainer>
   );
 };

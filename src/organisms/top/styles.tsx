@@ -19,8 +19,8 @@ export const MainTypo = styled.div`
 `;
 
 export const SubTypo = styled.div`
-  width: 355px;
   height: 30px;
+  padding: 0 8px;
   line-height: 30px;
   border-radius: 4px;
   font-size: 14px;
