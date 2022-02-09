@@ -150,11 +150,15 @@ const Intro = ({ api }: any) => {
         <SwapButton onClick={onClickStart}>SWAP START</SwapButton>
         <StatusLink onClick={() => setStep(STEP_STATUS)}>SWAP STATUS</StatusLink>
         <DownloadWrapper>
+          <DownloadItem src={process.env.PUBLIC_URL + "/images/icon_web.png"} onClick={linktoWeb}></DownloadItem>
+          <DownloadItem src={process.env.PUBLIC_URL + "/images/icon_linux.png"} onClick={downloadLinux}></DownloadItem>
           <DownloadItem src={process.env.PUBLIC_URL + "/images/icon_win.png"} onClick={downloadWin}></DownloadItem>
           <DownloadItem src={process.env.PUBLIC_URL + "/images/icon_mac.png"} onClick={downloadMac}></DownloadItem>
-          <DownloadItem src={process.env.PUBLIC_URL + "/images/icon_mac.png"} onClick={downloadMacM1}></DownloadItem>
-          <DownloadItem src={process.env.PUBLIC_URL + "/images/icon_linux.png"} onClick={downloadLinux}></DownloadItem>
-          <DownloadItem src={process.env.PUBLIC_URL + "/images/icon_web.png"} onClick={linktoWeb}></DownloadItem>
+          <DownloadItem
+            src={process.env.PUBLIC_URL + "/images/icon_m1.png"}
+            onClick={downloadMacM1}
+            style={{ width: "50px" }}
+          ></DownloadItem>
         </DownloadWrapper>
       </IntroContainer>
     </>
