@@ -58,12 +58,13 @@ const Metamask = () => {
     });
   };
 
-  const getRawTransferTx = (toAddress: string | undefined, amountFCT: string) => {
+  const getRawTransferTx = async (toAddress: string | undefined, amountFCT: string) => {
     const rawData = ERC20_FCT_CONTRACT.methods.transfer(toAddress, web3.utils.toWei(amountFCT)).encodeABI();
+    const address = await getEthAddress();
 
     return {
       to: process.env.REACT_APP_FCT_CONTRACT_ADDRESS,
-      from: window.ethereum.selectedAddress,
+      from: address,
       data: rawData,
     };
   };
@@ -96,9 +97,11 @@ const Metamask = () => {
   };
 
   const transferForSwap = async (amountFCT: string) => {
+    const params = await getRawTransferTx(process.env.REACT_APP_FIRMA_ETH_ADDRESS, amountFCT);
+
     return await window.ethereum.request({
       method: "eth_sendTransaction",
-      params: [getRawTransferTx(process.env.REACT_APP_FIRMA_ETH_ADDRESS, amountFCT)],
+      params: [params],
     });
   };
 
