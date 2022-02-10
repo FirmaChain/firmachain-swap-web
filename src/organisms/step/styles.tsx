@@ -182,8 +182,16 @@ export const MetamaskWrapper = styled.div`
   align-items: center;
 `;
 
+export const MetamaskInstallWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+`;
+
 export const MetamaskTypo = styled.div`
   color: white;
+  line-height: 25px;
 `;
 
 export const MetamaskIcon = styled.div`

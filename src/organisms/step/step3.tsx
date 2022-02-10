@@ -15,6 +15,7 @@ import {
   Label,
   MetamaskWrapper,
   MetamaskTypo,
+  MetamaskInstallWrapper,
   MetamaskIcon,
   NextButton,
 } from "./styles";
@@ -31,6 +32,7 @@ const Step3 = ({ setLoading, api }: any) => {
   const [balance, setBalance] = useState("");
   const [isConnected, setConnect] = useState(false);
   const [isActiveSwap, setActiveSwap] = useState(false);
+  const [isProcessInstall, setProcessInstall] = useState(false);
 
   const { installed, connect, getChainId, getEthAddress, transferForSwap, balanceOfFCT } = Metamask();
 
@@ -136,6 +138,7 @@ const Step3 = ({ setLoading, api }: any) => {
         onChangeMetamask(false);
       } else {
         window.open("https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn");
+        setProcessInstall(true);
         setLoading(false);
       }
     } catch (e) {
@@ -189,9 +192,26 @@ const Step3 = ({ setLoading, api }: any) => {
             <MetamaskTypo>Metamask</MetamaskTypo>
             <MetamaskIcon />
           </MetamaskWrapper>
-          <NextButton active={true} onClick={onClickConnectMetamask}>
-            CONNECT
-          </NextButton>
+          {isProcessInstall === true ? (
+            <NextButton active={true} onClick={onClickConnectMetamask}>
+              CONNECT
+            </NextButton>
+          ) : (
+            <>
+              <NextButton
+                active={true}
+                onClick={() => {
+                  window.location.reload();
+                }}
+              >
+                BACK TO MAIN
+              </NextButton>
+              <MetamaskInstallWrapper>
+                <MetamaskTypo>After installing MetaMask,</MetamaskTypo>
+                <MetamaskTypo>please click on the [Back to main] button before token swap.</MetamaskTypo>
+              </MetamaskInstallWrapper>
+            </>
+          )}
         </>
       )}
     </Step>
