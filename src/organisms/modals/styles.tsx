@@ -86,12 +86,13 @@ export const TitleTypo = styled.div`
   color: white;
   margin-top: 20px;
   margin-bottom: 20px;
-  font-size: 16px;
+  font-size: 24px;
 `;
 
 export const SubTypo = styled.div`
   text-align: center;
   margin-top: 30px;
   margin-bottom: 20px;
-  font-size: 22px;
+  font-size: 16px;
+  color: white;
 `;

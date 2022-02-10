@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import API from "../utils/api";
 import Header from "../organisms/header";
@@ -11,6 +11,7 @@ import ResultOrder from "../organisms/resultOrder";
 
 import { STEP_INTRO, STEP_STATUS, STEP_RESULT } from "../constants/main";
 
+import { IntroNotice } from "../organisms/modals";
 import { MainContainer } from "./styles";
 
 interface IMainState {
@@ -25,11 +26,22 @@ export const MainContext = React.createContext<IMainState>({
 
 const Main = () => {
   const [currentStep, setStep] = useState(STEP_INTRO);
+  const [notice, setNotice] = useState(true);
   const api = API();
+
+  const toggleModal = (isNotice: boolean) => {
+    setNotice(isNotice);
+  };
 
   return (
     <MainContext.Provider value={{ setStep, currentStep }}>
       <MainContainer>
+        <IntroNotice
+          visible={notice}
+          onClose={() => {
+            toggleModal(false);
+          }}
+        />
         <Header />
         <Top />
         {currentStep === STEP_INTRO && <Intro api={api} />}
