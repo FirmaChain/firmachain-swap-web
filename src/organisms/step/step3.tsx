@@ -192,7 +192,7 @@ const Step3 = ({ setLoading, api }: any) => {
             <MetamaskTypo>Metamask</MetamaskTypo>
             <MetamaskIcon />
           </MetamaskWrapper>
-          {isProcessInstall === true ? (
+          {isProcessInstall === false ? (
             <NextButton active={true} onClick={onClickConnectMetamask}>
               CONNECT
             </NextButton>
