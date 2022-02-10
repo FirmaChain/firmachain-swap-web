@@ -93,8 +93,8 @@ const Step3 = ({ setLoading, api }: any) => {
     const balance = await balanceOfFCT();
     const address = await getEthAddress();
 
-    setInputAmount(`${balance}`);
-    setBalance(`${balance}`);
+    setInputAmount(`${balance}`.replace(/(\.\d{6})\d+/g, "$1"));
+    setBalance(`${balance}`.replace(/(\.\d{6})\d+/g, "$1"));
 
     if (typeof address == "string") {
       setInputEthAddress(address + "");
