@@ -136,6 +136,7 @@ const Step3 = ({ setLoading, api }: any) => {
         onChangeMetamask(false);
       } else {
         window.open("https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn");
+        setLoading(false);
       }
     } catch (e) {
       setLoading(false);
