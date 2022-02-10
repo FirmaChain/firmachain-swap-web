@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { isMobile, isTablet } from "react-device-detect";
 
 import API from "../utils/api";
 import Header from "../organisms/header";
@@ -28,6 +29,10 @@ const Main = () => {
   const [currentStep, setStep] = useState(STEP_INTRO);
   const [notice, setNotice] = useState(true);
   const api = API();
+
+  useEffect(() => {
+    if (isMobile || isTablet) setNotice(false);
+  }, []);
 
   const toggleModal = (isNotice: boolean) => {
     setNotice(isNotice);
