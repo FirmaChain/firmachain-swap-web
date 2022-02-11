@@ -41,7 +41,7 @@ const Row = ({ data, index, style }: any) => {
       case 3:
         return <StatusTypo color={"#47EC9F"}>Success</StatusTypo>;
       default:
-        return <StatusTypo>Error</StatusTypo>;
+        return <StatusTypo>Need to contact</StatusTypo>;
     }
   };
 
