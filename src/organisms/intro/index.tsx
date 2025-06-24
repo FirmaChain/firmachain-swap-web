@@ -5,9 +5,7 @@ import { userActions } from '@/redux/action';
 import { getAddress } from '@/utils/ledger';
 import { FirmaUtil } from '@firmachain/firma-js';
 import { useSnackbar } from 'notistack';
-import Loader from 'react-loader-spinner';
-
-import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
+import { MutatingDots } from 'react-loader-spinner';
 
 import {
     ArrowIconFirst,
@@ -132,7 +130,7 @@ const Intro = ({ api }: any) => {
     return (
         <>
             <LoadingWrapper active={isLoading}>
-                <Loader type="MutatingDots" color="#0080c4" secondaryColor="#00d8ff" height={100} width={100} />
+                <MutatingDots color="#0080c4" secondaryColor="#00d8ff" height={100} width={100} />
             </LoadingWrapper>
             <IntroContainer>
                 <SwapIcon>

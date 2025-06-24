@@ -1,11 +1,9 @@
 import React, { useContext, useState } from 'react';
 import { STEP_1, STEP_2, STEP_3 } from '@/constants/main';
 import { MainContext } from '@/pages/main';
-import Loader from 'react-loader-spinner';
+import { MutatingDots } from 'react-loader-spinner';
 
 import Progressbar from '@/components/progressbar';
-
-import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 
 import Step1 from './step1';
 import Step2 from './step2';
@@ -20,7 +18,7 @@ const Step = ({ api }: any) => {
     return (
         <>
             <LoadingWrapper active={isLoading}>
-                <Loader type="MutatingDots" color="#0080c4" secondaryColor="#00d8ff" height={100} width={100} />
+                <MutatingDots color="#0080c4" secondaryColor="#00d8ff" height={100} width={100} />
             </LoadingWrapper>
             <StepWrapper>
                 <Progressbar currentStep={currentStep} />
