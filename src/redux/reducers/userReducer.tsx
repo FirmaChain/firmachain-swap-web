@@ -10,11 +10,13 @@ const initialState: IUserState = {
     order: {}
 };
 
-export default createReducer(initialState, {
-    [HANDLE_USER_ORDER]: (state: IUserState, { order }) => {
+const userReducer = createReducer(initialState, (builder) => {
+    builder.addCase(HANDLE_USER_ORDER, (state: IUserState, action: any) => {
         state.order = {
             ...state.order,
-            ...order
+            ...action.order
         };
-    }
+    });
 });
+
+export default userReducer;

@@ -1,7 +1,6 @@
-import { applyMiddleware, createStore } from 'redux';
+import { configureStore } from '@reduxjs/toolkit';
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import ReduxThunk from 'redux-thunk';
 
 import reducers from './reducers';
 
@@ -10,4 +9,14 @@ const persistConfig = {
     storage
 };
 
-export default createStore(persistReducer(persistConfig, reducers), applyMiddleware(ReduxThunk));
+const persistedReducer = persistReducer(persistConfig, reducers);
+const store = configureStore({
+    reducer: persistedReducer,
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware({
+            // This value ignores using non-serializeable values are used in redux
+            serializableCheck: false
+        })
+});
+
+export default store;

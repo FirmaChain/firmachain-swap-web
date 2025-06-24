@@ -6,6 +6,8 @@ export interface rootState {
     user: IUserState;
 }
 
-export default combineReducers({
+const reducer = combineReducers({
     user: userReducer
 });
+
+export default reducer;
