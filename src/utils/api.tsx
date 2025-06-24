@@ -1,10 +1,10 @@
-import { useState } from 'react'
-import axios from 'axios'
+import { useState } from 'react';
+import axios from 'axios';
 
-axios.defaults.withCredentials = true
+axios.defaults.withCredentials = true;
 
 const API = () => {
-    const [token, setToken] = useState('')
+    const [token, setToken] = useState('');
 
     const insertOrder = async (
         tokenData: string,
@@ -15,7 +15,7 @@ const API = () => {
         ethTxHash: string,
         email: string
     ) => {
-        checkValidateToken()
+        checkValidateToken();
 
         const result = await axios.post(
             `${import.meta.env.VITE_API_HOST}/swaps`,
@@ -26,93 +26,93 @@ const API = () => {
                 firmaAddress,
                 ethTxHash,
                 amount,
-                email,
+                email
             },
             { headers: { 'Content-Type': `application/json`, authorization: `Bearer ${token}` } }
-        )
+        );
 
-        setToken(result.headers.ft)
+        setToken(result.headers.ft);
 
-        return result
-    }
+        return result;
+    };
 
     const sendRegistrationMail = async (orderId: string) => {
-        checkValidateToken()
+        checkValidateToken();
 
         const result = await axios.post(`${import.meta.env.VITE_API_HOST}/swaps/email/${orderId}`, {
-            headers: { 'Content-Type': `application/json`, authorization: `Bearer ${token}` },
-        })
+            headers: { 'Content-Type': `application/json`, authorization: `Bearer ${token}` }
+        });
 
-        setToken(result.headers.ft)
+        setToken(result.headers.ft);
 
-        return result
-    }
+        return result;
+    };
 
     const sendVerificationMail = async (email: string, firmaAddress: string) => {
-        checkValidateToken()
+        checkValidateToken();
 
         const result = await axios.post(
             `${import.meta.env.VITE_API_HOST}/swaps/email`,
             { email, firmaAddress },
             { headers: { 'Content-Type': `application/json`, authorization: `Bearer ${token}` } }
-        )
+        );
 
-        setToken(result.headers.ft)
+        setToken(result.headers.ft);
 
-        return result
-    }
+        return result;
+    };
 
     const getBuildURL = async () => {
-        const result = await axios.get(`${import.meta.env.VITE_API_HOST}/stations/release/latest`)
+        const result = await axios.get(`${import.meta.env.VITE_API_HOST}/stations/release/latest`);
 
-        setToken(result.headers.ft)
+        setToken(result.headers.ft);
 
-        return result
-    }
+        return result;
+    };
 
     const getSwapList = async () => {
-        checkValidateToken()
+        checkValidateToken();
 
         const result = await axios.get(`${import.meta.env.VITE_API_HOST}/swaps`, {
-            headers: { 'Content-Type': `application/json`, authorization: `Bearer ${token}` },
-        })
+            headers: { 'Content-Type': `application/json`, authorization: `Bearer ${token}` }
+        });
 
-        setToken(result.headers.ft)
+        setToken(result.headers.ft);
 
-        return result
-    }
+        return result;
+    };
 
     const getSwapListByPath = async (path: string) => {
-        checkValidateToken()
+        checkValidateToken();
 
         const result = await axios.get(`${import.meta.env.VITE_API_HOST}/swaps/${path}`, {
-            headers: { 'Content-Type': `application/json`, authorization: `Bearer ${token}` },
-        })
+            headers: { 'Content-Type': `application/json`, authorization: `Bearer ${token}` }
+        });
 
-        setToken(result.headers.ft)
+        setToken(result.headers.ft);
 
-        return result
-    }
+        return result;
+    };
 
     const getIsVerified = async (email: string, authCode: string, firmaAddress: string) => {
-        checkValidateToken()
+        checkValidateToken();
 
         const result = await axios.put(
             `${import.meta.env.VITE_API_HOST}/swaps/email`,
             { email, authCode, firmaAddress },
             { headers: { 'Content-Type': `application/json`, authorization: `Bearer ${token}` } }
-        )
+        );
 
-        setToken(result.headers.ft)
+        setToken(result.headers.ft);
 
-        return result
-    }
+        return result;
+    };
 
     const checkValidateToken = () => {
         if (token === '' || token === undefined) {
-            window.location.reload()
+            window.location.reload();
         }
-    }
+    };
 
     return {
         insertOrder,
@@ -121,8 +121,8 @@ const API = () => {
         sendVerificationMail,
         getBuildURL,
         getSwapList,
-        getSwapListByPath,
-    }
-}
+        getSwapListByPath
+    };
+};
 
-export default API
+export default API;

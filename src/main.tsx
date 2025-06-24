@@ -1,15 +1,15 @@
-import { createRoot } from 'react-dom/client'
-import { Provider } from 'react-redux'
-import { SnackbarProvider } from 'notistack'
-import { persistStore } from 'redux-persist'
-import { PersistGate } from 'redux-persist/integration/react'
+import { SnackbarProvider } from 'notistack';
+import { createRoot } from 'react-dom/client';
+import { Provider } from 'react-redux';
+import { persistStore } from 'redux-persist';
+import { PersistGate } from 'redux-persist/integration/react';
 
-import App from './App'
-import store from './redux/store'
+import App from './App';
+import store from './redux/store';
 
-const persistor = persistStore(store)
+const persistor = persistStore(store);
 
-const root = createRoot(document.getElementById('root')!)
+const root = createRoot(document.getElementById('root')!);
 
 root.render(
     <Provider store={store}>
@@ -18,11 +18,11 @@ root.render(
                 maxSnack={3}
                 anchorOrigin={{
                     vertical: 'bottom',
-                    horizontal: 'left',
+                    horizontal: 'left'
                 }}
             >
                 <App />
             </SnackbarProvider>
         </PersistGate>
     </Provider>
-)
+);

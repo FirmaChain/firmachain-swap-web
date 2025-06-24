@@ -1,17 +1,17 @@
-import React, { useContext } from 'react'
-import { MainContext } from '../../pages/main'
-import { STEP_STATUS } from '../../constants/main'
-import { useSelector } from 'react-redux'
+import React, { useContext } from 'react';
+import { useSelector } from 'react-redux';
 
-import { Step, BigLabel, StatusLink, SubTypo, NotiCard, NotiTypo, NotiAddress } from './styles'
+import { STEP_STATUS } from '../../constants/main';
+import { MainContext } from '../../pages/main';
+import { BigLabel, NotiAddress, NotiCard, NotiTypo, StatusLink, Step, SubTypo } from './styles';
 
 const ResultOrder = () => {
-    const { order } = useSelector((state: any) => state.user)
-    const { setStep } = useContext(MainContext)
+    const { order } = useSelector((state: any) => state.user);
+    const { setStep } = useContext(MainContext);
 
     const openScan = () => {
-        window.open(`${import.meta.env.VITE_SCAN_URL}/tx/${order.txHash}`)
-    }
+        window.open(`${import.meta.env.VITE_SCAN_URL}/tx/${order.txHash}`);
+    };
 
     return (
         <>
@@ -29,7 +29,7 @@ const ResultOrder = () => {
             </Step>
             <StatusLink onClick={() => setStep(STEP_STATUS)}>SWAP STATUS</StatusLink>
         </>
-    )
-}
+    );
+};
 
-export default React.memo(ResultOrder)
+export default React.memo(ResultOrder);

@@ -1,10 +1,11 @@
-import { combineReducers } from "redux";
-import userReducer, { IUserState } from "./userReducer";
+import { combineReducers } from 'redux';
+
+import userReducer, { IUserState } from './userReducer';
 
 export interface rootState {
-  user: IUserState;
+    user: IUserState;
 }
 
 export default combineReducers({
-  user: userReducer,
+    user: userReducer
 });

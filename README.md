@@ -2,10 +2,10 @@
 
 ## Environment
 
--   Node v20
--   React 18.3
--   Redux
--   Styled-components
+- Node v20
+- React 18.3
+- Redux
+- Styled-components
 
 ---
 
@@ -25,6 +25,7 @@ yarn install
 ```bash
 yarn run dev 	# Uses .env.dev
 ```
+
 ---
 
 ## Code Quality

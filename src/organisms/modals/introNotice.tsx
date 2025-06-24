@@ -1,16 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
 
-import { Modal } from '../../components/modal'
-
-import { ModalContainer, ModalContent, NextButton, TitleTypo, SubTypo } from './styles'
-
-import styled from 'styled-components'
+import { Modal } from '../../components/modal';
+import { ModalContainer, ModalContent, NextButton, SubTypo, TitleTypo } from './styles';
 
 const ImageWrapper = styled.div`
     width: 100%;
     display: flex;
     justify-content: center;
-`
+`;
 
 const ImageDiv = styled.div`
     width: calc(100% - 130px);
@@ -19,23 +17,23 @@ const ImageDiv = styled.div`
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center center;
-`
+`;
 
 const IntroNotice = ({ visible, onClose }: any) => {
-    const [isNext, setNext] = useState(false)
+    const [isNext, setNext] = useState(false);
 
     useEffect(() => {
         setTimeout(() => {
-            setNext(true)
-        }, 2100)
-    }, [])
+            setNext(true);
+        }, 2100);
+    }, []);
 
     return (
         <Modal
             visible={visible}
             closable={false}
             onClose={() => {
-                onClose()
+                onClose();
             }}
             width={'700px'}
         >
@@ -51,7 +49,7 @@ const IntroNotice = ({ visible, onClose }: any) => {
                         active={isNext}
                         style={{ marginTop: '40px' }}
                         onClick={() => {
-                            if (isNext) onClose()
+                            if (isNext) onClose();
                         }}
                     >
                         READY
@@ -59,7 +57,7 @@ const IntroNotice = ({ visible, onClose }: any) => {
                 </ModalContent>
             </ModalContainer>
         </Modal>
-    )
-}
+    );
+};
 
-export default React.memo(IntroNotice)
+export default React.memo(IntroNotice);

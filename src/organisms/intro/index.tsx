@@ -1,39 +1,39 @@
-import React, { useContext, useState, useEffect } from 'react'
-import Loader from 'react-loader-spinner'
-import { useSnackbar } from 'notistack'
+import React, { useContext, useEffect, useState } from 'react';
+import { FirmaUtil } from '@firmachain/firma-js';
+import { useSnackbar } from 'notistack';
+import Loader from 'react-loader-spinner';
 
-import { FirmaUtil } from '@firmachain/firma-js'
-import { MainContext } from '../../pages/main'
-import { userActions } from '../../redux/action'
-import { STEP_STATUS, STEP_1 } from '../../constants/main'
-import { getAddress } from '../../utils/ledger'
+import { STEP_1, STEP_STATUS } from '../../constants/main';
+import { MainContext } from '../../pages/main';
+import { userActions } from '../../redux/action';
+import { getAddress } from '../../utils/ledger';
 
-import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 
 import {
-    LoadingWrapper,
-    IntroContainer,
-    SwapIcon,
     ArrowIconFirst,
     ArrowIconSecond,
     ArrowIconThird,
-    SwapButton,
-    StatusLink,
-    Label,
-    InputWrapper,
-    InputBoxDefault,
-    DownloadWrapper,
     DownloadItem,
+    DownloadWrapper,
+    InputBoxDefault,
+    InputWrapper,
+    IntroContainer,
+    Label,
     LedgerIconImg,
-} from './styles'
+    LoadingWrapper,
+    StatusLink,
+    SwapButton,
+    SwapIcon
+} from './styles';
 
 const Intro = ({ api }: any) => {
-    const { setStep } = useContext(MainContext)
-    const { enqueueSnackbar } = useSnackbar()
+    const { setStep } = useContext(MainContext);
+    const { enqueueSnackbar } = useSnackbar();
 
-    const [firmaAddress, setFirmaAddress] = useState('')
-    const [isLoading, setLoading] = useState(false)
-    const [downloadURLData, setDownloadURLData] = useState({ win: '', mac: '', macm1: '', linux: '' })
+    const [firmaAddress, setFirmaAddress] = useState('');
+    const [isLoading, setLoading] = useState(false);
+    const [downloadURLData, setDownloadURLData] = useState({ win: '', mac: '', macm1: '', linux: '' });
 
     const generateOrderId = () => {
         return (
@@ -41,8 +41,8 @@ const Intro = ({ api }: any) => {
             Math.floor(new Date().valueOf() * Math.random())
                 .toString()
                 .padStart(40, Math.random().toString(36).substr(2, 11))
-        )
-    }
+        );
+    };
 
     useEffect(() => {
         api.getBuildURL()
@@ -51,13 +51,13 @@ const Intro = ({ api }: any) => {
                     win: res.data.result.urlList.win,
                     mac: res.data.result.urlList.mac,
                     macm1: res.data.result.urlList.macm1,
-                    linux: res.data.result.urlList.linux,
-                })
+                    linux: res.data.result.urlList.linux
+                });
             })
             .catch((e: any) => {
-                console.log(e)
-            })
-    }, []) // eslint-disable-line react-hooks/exhaustive-deps
+                console.log(e);
+            });
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     const onClickStart = () => {
         if (FirmaUtil.isValidAddress(firmaAddress)) {
@@ -67,73 +67,73 @@ const Intro = ({ api }: any) => {
                 firmaAddress,
                 ethAddress: '',
                 amount: '',
-                emailAddress: '',
-            })
-            setStep(STEP_1)
+                emailAddress: ''
+            });
+            setStep(STEP_1);
         } else {
             enqueueSnackbar('You need a firma wallet address for the swap', {
                 variant: 'error',
-                autoHideDuration: 3000,
-            })
+                autoHideDuration: 3000
+            });
         }
-    }
+    };
 
     const onChangeFirmaAddress = (e: any) => {
-        if (e === null) return
-        setFirmaAddress(e.target.value)
-    }
+        if (e === null) return;
+        setFirmaAddress(e.target.value);
+    };
 
     const downloadWin = () => {
-        window.open(downloadURLData.win)
-    }
+        window.open(downloadURLData.win);
+    };
 
     const downloadMac = () => {
-        window.open(downloadURLData.mac)
-    }
+        window.open(downloadURLData.mac);
+    };
 
     const downloadMacM1 = () => {
-        window.open(downloadURLData.macm1)
-    }
+        window.open(downloadURLData.macm1);
+    };
 
     const downloadLinux = () => {
-        window.open(downloadURLData.linux)
-    }
+        window.open(downloadURLData.linux);
+    };
 
     const linktoWeb = () => {
-        window.open(import.meta.env.VITE_STATION_HOST)
-    }
+        window.open(import.meta.env.VITE_STATION_HOST);
+    };
 
     const getAddressByLedger = () => {
-        setLoading(true)
+        setLoading(true);
         getAddress()
             .then((result) => {
-                setLoading(false)
+                setLoading(false);
                 if (result === undefined || result === '') {
                     enqueueSnackbar('Failed get address from ledger', {
                         variant: 'error',
-                        autoHideDuration: 1500,
-                    })
+                        autoHideDuration: 1500
+                    });
                 } else {
                     enqueueSnackbar('Success get address from ledger', {
                         variant: 'success',
-                        autoHideDuration: 1500,
-                    })
-                    setFirmaAddress(result)
+                        autoHideDuration: 1500
+                    });
+                    setFirmaAddress(result);
                 }
             })
             .catch((e) => {
-                setLoading(false)
+                setLoading(false);
                 enqueueSnackbar('Failed connect to ledger', {
                     variant: 'error',
-                    autoHideDuration: 1500,
-                })
-            })
-    }
+                    autoHideDuration: 1500
+                });
+            });
+    };
 
     return (
         <>
             <LoadingWrapper active={isLoading}>
-                <Loader type='MutatingDots' color='#0080c4' secondaryColor='#00d8ff' height={100} width={100} />
+                <Loader type="MutatingDots" color="#0080c4" secondaryColor="#00d8ff" height={100} width={100} />
             </LoadingWrapper>
             <IntroContainer>
                 <SwapIcon>
@@ -144,7 +144,7 @@ const Intro = ({ api }: any) => {
                 <InputWrapper>
                     <Label>Your Firma Wallet Address</Label>
                     <LedgerIconImg onClick={getAddressByLedger} />
-                    <InputBoxDefault placeholder='firmaxxxxxxx' value={firmaAddress} onChange={onChangeFirmaAddress} />
+                    <InputBoxDefault placeholder="firmaxxxxxxx" value={firmaAddress} onChange={onChangeFirmaAddress} />
                 </InputWrapper>
                 <SwapButton onClick={onClickStart}>SWAP START</SwapButton>
                 <StatusLink onClick={() => setStep(STEP_STATUS)}>SWAP STATUS</StatusLink>
@@ -157,7 +157,7 @@ const Intro = ({ api }: any) => {
                 </DownloadWrapper>
             </IntroContainer>
         </>
-    )
-}
+    );
+};
 
-export default React.memo(Intro)
+export default React.memo(Intro);

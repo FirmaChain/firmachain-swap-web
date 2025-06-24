@@ -1,19 +1,20 @@
-import { createReducer } from "@reduxjs/toolkit";
-import { HANDLE_USER_ORDER } from "../types";
+import { createReducer } from '@reduxjs/toolkit';
+
+import { HANDLE_USER_ORDER } from '../types';
 
 export interface IUserState {
-  order: any;
+    order: any;
 }
 
 const initialState: IUserState = {
-  order: {},
+    order: {}
 };
 
 export default createReducer(initialState, {
-  [HANDLE_USER_ORDER]: (state: IUserState, { order }) => {
-    state.order = {
-      ...state.order,
-      ...order,
-    };
-  },
+    [HANDLE_USER_ORDER]: (state: IUserState, { order }) => {
+        state.order = {
+            ...state.order,
+            ...order
+        };
+    }
 });

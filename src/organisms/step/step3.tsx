@@ -1,164 +1,163 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react';
+import { useSnackbar } from 'notistack';
+import { useSelector } from 'react-redux';
 
-import { useSelector } from 'react-redux'
-import { useSnackbar } from 'notistack'
-
-import Metamask from '../../utils/metamask'
-import { userActions } from '../../redux/action'
-import { MainContext } from '../../pages/main'
-import { STEP_RESULT } from '../../constants/main'
+import { STEP_RESULT } from '../../constants/main';
+import { MainContext } from '../../pages/main';
+import { userActions } from '../../redux/action';
+import Metamask from '../../utils/metamask';
 import {
-    Step,
     Card,
-    InputWrapper,
     InputBoxDefault,
+    InputWrapper,
     Label,
-    MetamaskWrapper,
-    MetamaskTypo,
-    MetamaskInstallWrapper,
     MetamaskIcon,
+    MetamaskInstallWrapper,
+    MetamaskTypo,
+    MetamaskWrapper,
     NextButton,
-} from './styles'
+    Step
+} from './styles';
 
-declare let window: any
+declare let window: any;
 
 const Step3 = ({ setLoading, api }: any) => {
-    const { firmaAddress, orderId, emailAddress, tokenData } = useSelector((state: any) => state.user.order)
-    const { setStep } = useContext(MainContext)
-    const { enqueueSnackbar } = useSnackbar()
+    const { firmaAddress, orderId, emailAddress, tokenData } = useSelector((state: any) => state.user.order);
+    const { setStep } = useContext(MainContext);
+    const { enqueueSnackbar } = useSnackbar();
 
-    const [inputEthAddress, setInputEthAddress] = useState('')
-    const [inputAmount, setInputAmount] = useState('')
-    const [balance, setBalance] = useState('')
-    const [isConnected, setConnect] = useState(false)
-    const [isActiveSwap, setActiveSwap] = useState(false)
-    const [isProcessInstall, setProcessInstall] = useState(false)
+    const [inputEthAddress, setInputEthAddress] = useState('');
+    const [inputAmount, setInputAmount] = useState('');
+    const [balance, setBalance] = useState('');
+    const [isConnected, setConnect] = useState(false);
+    const [isActiveSwap, setActiveSwap] = useState(false);
+    const [isProcessInstall, setProcessInstall] = useState(false);
 
-    const { installed, connect, getChainId, getEthAddress, transferForSwap, balanceOfFCT } = Metamask()
+    const { installed, connect, getChainId, getEthAddress, transferForSwap, balanceOfFCT } = Metamask();
 
     useEffect(() => {
-        setActiveSwap(Number(inputAmount) > 0)
-    }, [inputAmount])
+        setActiveSwap(Number(inputAmount) > 0);
+    }, [inputAmount]);
 
     const onClickSwap = async () => {
         if (Number(inputAmount) > 0 && Number(inputAmount) <= Number(balance)) {
-            setLoading(true)
+            setLoading(true);
 
             try {
-                const ethTxHash = await transferForSwap(inputAmount)
+                const ethTxHash = await transferForSwap(inputAmount);
 
                 api.insertOrder(tokenData, orderId, inputEthAddress, firmaAddress, Number(inputAmount), ethTxHash, emailAddress)
                     .then(() => {
                         userActions.handleUserOrder({
                             ethAddress: inputEthAddress,
                             amount: inputAmount,
-                            txHash: ethTxHash,
-                        })
+                            txHash: ethTxHash
+                        });
 
                         enqueueSnackbar('Registration successful', {
                             variant: 'success',
-                            autoHideDuration: 1500,
-                        })
+                            autoHideDuration: 1500
+                        });
 
-                        setStep(STEP_RESULT)
+                        setStep(STEP_RESULT);
                     })
                     .catch(() => {
                         enqueueSnackbar('Invalid Request', {
                             variant: 'error',
-                            autoHideDuration: 3000,
-                        })
+                            autoHideDuration: 3000
+                        });
 
                         setTimeout(() => {
-                            window.location.reload()
-                        }, 3000)
-                    })
+                            window.location.reload();
+                        }, 3000);
+                    });
             } catch (e) {
-                setLoading(false)
+                setLoading(false);
                 enqueueSnackbar('Failed registration', {
                     variant: 'error',
-                    autoHideDuration: 1500,
-                })
+                    autoHideDuration: 1500
+                });
             }
         } else {
             enqueueSnackbar('Invalid swap amount', {
                 variant: 'error',
-                autoHideDuration: 1500,
-            })
-            setInputAmount(balance)
+                autoHideDuration: 1500
+            });
+            setInputAmount(balance);
         }
-    }
+    };
 
     const updateMetamaskUserInfo = async () => {
-        const balance = await balanceOfFCT()
-        const address = await getEthAddress()
+        const balance = await balanceOfFCT();
+        const address = await getEthAddress();
 
-        setInputAmount(`${balance}`.replace(/(\.\d{6})\d+/g, '$1'))
-        setBalance(`${balance}`.replace(/(\.\d{6})\d+/g, '$1'))
+        setInputAmount(`${balance}`.replace(/(\.\d{6})\d+/g, '$1'));
+        setBalance(`${balance}`.replace(/(\.\d{6})\d+/g, '$1'));
 
         if (typeof address == 'string') {
-            setInputEthAddress(address + '')
+            setInputEthAddress(address + '');
         } else {
-            setInputEthAddress('')
+            setInputEthAddress('');
         }
-    }
+    };
 
     const updateChainInfo = async () => {
         if ((await getChainId()) === import.meta.env.VITE_TARGET_ETH_CHAIN_ID) {
-            await updateMetamaskUserInfo()
+            await updateMetamaskUserInfo();
         } else {
-            throw new Error('INVALID CHAIN ID')
+            throw new Error('INVALID CHAIN ID');
         }
-    }
+    };
 
     const onChangeMetamask = (isLoading = true) => {
-        if (isLoading) setLoading(true)
+        if (isLoading) setLoading(true);
 
         updateChainInfo()
             .then(() => {
-                setConnect(true)
-                setLoading(false)
+                setConnect(true);
+                setLoading(false);
             })
             .catch(() => {
-                setConnect(false)
-                setLoading(false)
+                setConnect(false);
+                setLoading(false);
                 enqueueSnackbar('Please check Metamask network', {
                     variant: 'error',
-                    autoHideDuration: 1500,
-                })
-            })
-    }
+                    autoHideDuration: 1500
+                });
+            });
+    };
 
     const onClickConnectMetamask = async () => {
         try {
-            setLoading(true)
+            setLoading(true);
 
             if (installed()) {
-                await connect(onChangeMetamask)
-                onChangeMetamask(false)
+                await connect(onChangeMetamask);
+                onChangeMetamask(false);
             } else {
-                window.open('https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn')
-                setProcessInstall(true)
-                setLoading(false)
+                window.open('https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn');
+                setProcessInstall(true);
+                setLoading(false);
             }
         } catch (e) {
-            setLoading(false)
+            setLoading(false);
             enqueueSnackbar('Please connect to Metamask', {
                 variant: 'error',
-                autoHideDuration: 2000,
-            })
+                autoHideDuration: 2000
+            });
         }
-    }
+    };
 
     const onChangeAmount = (e: any) => {
-        if (e === null) return
-        setInputAmount(e.target.value.replace(/(\.\d{6})\d+/g, '$1'))
-    }
+        if (e === null) return;
+        setInputAmount(e.target.value.replace(/(\.\d{6})\d+/g, '$1'));
+    };
 
     const onKeydownAmount = (e: any) => {
         if (e.keyCode === 38 || e.keyCode === 40) {
-            e.preventDefault()
+            e.preventDefault();
         }
-    }
+    };
 
     return (
         <Step>
@@ -172,12 +171,12 @@ const Step3 = ({ setLoading, api }: any) => {
                         <InputWrapper>
                             <Label>Swap Amount (FCT)</Label>
                             <InputBoxDefault
-                                placeholder='10.000000'
+                                placeholder="10.000000"
                                 value={inputAmount}
                                 onChange={onChangeAmount}
                                 onKeyDown={onKeydownAmount}
-                                step='0.1'
-                                type='number'
+                                step="0.1"
+                                type="number"
                             />
                         </InputWrapper>
                     </Card>
@@ -200,7 +199,7 @@ const Step3 = ({ setLoading, api }: any) => {
                             <NextButton
                                 active={true}
                                 onClick={() => {
-                                    window.location.reload()
+                                    window.location.reload();
                                 }}
                             >
                                 BACK TO MAIN
@@ -214,7 +213,7 @@ const Step3 = ({ setLoading, api }: any) => {
                 </>
             )}
         </Step>
-    )
-}
+    );
+};
 
-export default React.memo(Step3)
+export default React.memo(Step3);

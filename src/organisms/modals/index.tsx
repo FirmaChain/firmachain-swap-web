@@ -1,4 +1,4 @@
-import ConfirmModal from "./confirmModal";
-import IntroNotice from "./introNotice";
+import ConfirmModal from './confirmModal';
+import IntroNotice from './introNotice';
 
 export { ConfirmModal, IntroNotice };
