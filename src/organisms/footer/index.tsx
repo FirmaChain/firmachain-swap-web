@@ -7,7 +7,7 @@ const Header = () => {
         <FooterContainer>
             <LeftTypo>Copyrightⓒ FirmaChain Pte. Ltd. | All Right Reserved.</LeftTypo>
             <RightTypo>
-                <a href="mailto:contact@firmachain.org">contact@firmachain.org</a>
+                <a href="mailto:info@firmachain.org">info@firmachain.org</a>
             </RightTypo>
         </FooterContainer>
     );
