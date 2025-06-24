@@ -1,12 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { STEP_1, STEP_STATUS } from '@/constants/main';
+import { MainContext } from '@/pages/main';
+import { userActions } from '@/redux/action';
+import { getAddress } from '@/utils/ledger';
 import { FirmaUtil } from '@firmachain/firma-js';
 import { useSnackbar } from 'notistack';
 import Loader from 'react-loader-spinner';
-
-import { STEP_1, STEP_STATUS } from '../../constants/main';
-import { MainContext } from '../../pages/main';
-import { userActions } from '../../redux/action';
-import { getAddress } from '../../utils/ledger';
 
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 
@@ -121,7 +120,7 @@ const Intro = ({ api }: any) => {
                     setFirmaAddress(result);
                 }
             })
-            .catch((e) => {
+            .catch((_) => {
                 setLoading(false);
                 enqueueSnackbar('Failed connect to ledger', {
                     variant: 'error',

@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
+import { STEP_INTRO, STEP_RESULT, STEP_STATUS } from '@/constants/main';
+import Footer from '@/organisms/footer';
+import Header from '@/organisms/header';
+import Intro from '@/organisms/intro';
+import { IntroNotice } from '@/organisms/modals';
+import ResultOrder from '@/organisms/resultOrder';
+import Status from '@/organisms/status';
+import Step from '@/organisms/step';
+import Top from '@/organisms/top';
+import API from '@/utils/api';
 import { isMobile, isTablet } from 'react-device-detect';
 
-import { STEP_INTRO, STEP_RESULT, STEP_STATUS } from '../constants/main';
-import Footer from '../organisms/footer';
-import Header from '../organisms/header';
-import Intro from '../organisms/intro';
-import { IntroNotice } from '../organisms/modals';
-import ResultOrder from '../organisms/resultOrder';
-import Status from '../organisms/status';
-import Step from '../organisms/step';
-import Top from '../organisms/top';
-import API from '../utils/api';
 import { MainContainer } from './styles';
 
 interface IMainState {

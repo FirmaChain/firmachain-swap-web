@@ -1,9 +1,9 @@
 import React, { useContext, useEffect } from 'react';
+import { STEP_3 } from '@/constants/main';
+import { MainContext } from '@/pages/main';
 import { useSnackbar } from 'notistack';
 import { useSelector } from 'react-redux';
 
-import { STEP_3 } from '../../constants/main';
-import { MainContext } from '../../pages/main';
 import { BackButton, BigLabel, Card, CheckBoxRound, CheckIcon, InputTypo, InputWrapper, Label, NextButton, Step, Typo } from './styles';
 
 const Step4 = ({ toggleModal }: any) => {

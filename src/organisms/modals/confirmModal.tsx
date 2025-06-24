@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { Modal } from '../../components/modal';
+import { Modal } from '@/components/modal';
+
 import { ModalContainer, ModalContent, NextButton, SubTypo, TitleTypo } from './styles';
 
 const ConfirmModal = ({ visible, onClose, confirmAction, amount }: any) => {

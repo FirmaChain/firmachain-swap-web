@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { STEP_RESULT } from '@/constants/main';
+import { MainContext } from '@/pages/main';
+import { userActions } from '@/redux/action';
+import Metamask from '@/utils/metamask';
 import { useSnackbar } from 'notistack';
 import { useSelector } from 'react-redux';
 
-import { STEP_RESULT } from '../../constants/main';
-import { MainContext } from '../../pages/main';
-import { userActions } from '../../redux/action';
-import Metamask from '../../utils/metamask';
 import {
     Card,
     InputBoxDefault,

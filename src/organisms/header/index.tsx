@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
+import { STEP_INTRO } from '@/constants/main';
+import { MainContext } from '@/pages/main';
 
-import { STEP_INTRO } from '../../constants/main';
-import { MainContext } from '../../pages/main';
 import { HeaderContainer, LogoImage } from './styles';
 
 const Header = () => {

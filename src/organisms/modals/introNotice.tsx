@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { Modal } from '../../components/modal';
+import { Modal } from '@/components/modal';
+
 import { ModalContainer, ModalContent, NextButton, SubTypo, TitleTypo } from './styles';
 
 const ImageWrapper = styled.div`

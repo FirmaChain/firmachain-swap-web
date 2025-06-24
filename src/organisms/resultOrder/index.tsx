@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
+import { STEP_STATUS } from '@/constants/main';
+import { MainContext } from '@/pages/main';
 import { useSelector } from 'react-redux';
 
-import { STEP_STATUS } from '../../constants/main';
-import { MainContext } from '../../pages/main';
 import { BigLabel, NotiAddress, NotiCard, NotiTypo, StatusLink, Step, SubTypo } from './styles';
 
 const ResultOrder = () => {

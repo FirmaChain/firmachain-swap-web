@@ -1,7 +1,7 @@
 import detectEthereumProvider from '@metamask/detect-provider';
 import Web3 from 'web3';
 
-import { MIN_ABI } from '../config';
+import { MIN_ABI } from '@/config';
 
 declare let window: any;
 

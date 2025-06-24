@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react';
+import { STEP_1, STEP_2, STEP_3 } from '@/constants/main';
+import { MainContext } from '@/pages/main';
 import Loader from 'react-loader-spinner';
 
-import Progressbar from '../../components/progressbar';
-import { STEP_1, STEP_2, STEP_3 } from '../../constants/main';
-import { MainContext } from '../../pages/main';
+import Progressbar from '@/components/progressbar';
 
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 

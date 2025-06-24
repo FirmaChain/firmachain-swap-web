@@ -1,10 +1,10 @@
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { STEP_3 } from '@/constants/main';
+import { MainContext } from '@/pages/main';
+import { userActions } from '@/redux/action';
 import { useSnackbar } from 'notistack';
 import { useSelector } from 'react-redux';
 
-import { STEP_3 } from '../../constants/main';
-import { MainContext } from '../../pages/main';
-import { userActions } from '../../redux/action';
 import { BigLabel, Card, InputBoxDefault, InputWrapper, Label, NextButton, Step } from './styles';
 
 const useCounter = (initialValue: number, ms: number) => {
@@ -26,7 +26,7 @@ const useCounter = (initialValue: number, ms: number) => {
         }
         clearInterval(intervalRef.current);
         intervalRef.current = null;
-    }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    }, []);
 
     const reset = useCallback(() => {
         setCount(0);
@@ -66,7 +66,7 @@ const Step2 = ({ setLoading, api }: any) => {
     }, [inputAuthCode]);
 
     const isValidEmail = (value: string) => {
-        var pattern = new RegExp(
+        const pattern = new RegExp(
             /^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i
         );
         return pattern.test(value);
