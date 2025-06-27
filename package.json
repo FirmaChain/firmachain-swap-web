@@ -14,7 +14,7 @@
     "dependencies": {
         "@emotion/react": "^11.5.0",
         "@emotion/styled": "^11.3.0",
-        "@firmachain/firma-js": "^0.2.19",
+        "@firmachain/firma-js": "^0.3.0-beta1",
         "@firmachain/firma-js-ledger": "^0.0.4",
         "@metamask/detect-provider": "^1.2.0",
         "@mui/icons-material": "^5.1.0",
